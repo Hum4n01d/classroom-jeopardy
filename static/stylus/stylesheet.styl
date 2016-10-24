@@ -1,0 +1,101 @@
+body
+    margin 0
+    font-family "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif
+
+*
+    box-sizing border-box
+
+h1,
+h2,
+p
+    margin-top 0
+
+.modal
+    position absolute
+    display none
+    top 0
+
+    .modal-content
+        position absolute
+        width 80vw
+        margin 50px 10vw
+        padding 20px
+        background-color white
+        border-radius 5px
+        z-index 12
+
+        .modal-header
+            display flex
+            justify-content space-between
+
+            .close
+                width 20px
+                height 20px
+                cursor pointer
+
+        form
+            display flex
+            justify-content space-between
+
+            .answer
+                width 100%
+                margin-right 20px
+
+            button
+                background-color #eee
+
+            .answer,
+            button
+                border-radius 5px
+                border 1px solid #999
+                padding 10px
+                box-shadow none
+                -webkit-appearance none
+
+                &:focus
+                    outline none
+
+    .blanket
+        width 100vw
+        height 100vh
+        background-color rgba(0, 0, 0, 0.5)
+        position absolute
+        z-index 10
+        top 0
+
+.board
+    margin 10px
+    border 2px black solid
+    border-radius 5px
+
+    ul
+        display flex
+
+        list-style none
+        flex-grow 1
+        padding 0
+        margin 0
+        background-color firebrick
+
+        li
+            width 100%
+            text-align center
+            padding 20px
+            border 1px black solid
+
+            p
+                margin 0
+
+    > ul
+        background-color deepskyblue
+
+    .board-main
+        display flex
+
+        ul
+            flex-direction column
+
+            .clue
+                .question,
+                .answer
+                    display none
