@@ -1,0 +1,105 @@
+@import 'https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css'
+@import 'font.styl'
+
+margin = 10px
+
+body
+    font-family 'Roboto Slab', "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif
+
+*
+    box-sizing border-box
+
+h1,
+h2,
+h3,
+p
+    margin-top 0
+
+a
+    color inherit
+
+img
+    max-width 100%
+
+form
+    fieldset
+        border none
+        padding 0
+
+        .error
+            margin-bottom 5px
+
+    input,
+    textarea,
+    button
+        border 1px solid #999
+        border-radius 3px
+        padding margin
+        margin 0
+        margin-bottom margin
+        outline none
+        -webkit-appearence none
+
+        ::-webkit-input-placeholder
+            rgba(33, 23, 23, 0.52)
+
+    input,
+    textarea
+        width 60%
+
+.flashes
+    margin 0
+    padding 0
+    display none
+
+    li
+        margin 10px 15%
+        border-radius 5px
+        position absolute
+        background-color #aaa
+        list-style none
+        width 70%
+        padding 10px
+        text-align center
+
+        &.error
+            background-color #b51717
+
+.main-header,
+.main-footer
+    padding margin
+    background-color #eee
+
+.main-header
+    display flex
+    align-items center
+
+    a
+        text-decoration none
+
+    > a
+        margin-right auto
+
+        h1
+            margin 0
+
+    nav
+        display flex
+
+        > a
+            margin-left margin
+
+.main-body
+    padding margin
+
+.main-footer
+    text-align center
+
+    > p
+        margin 0
+
+@media screen and (min-width: 700px)
+    .main-header,
+    .main-body,
+    .main-footer
+        margin 0 10vw

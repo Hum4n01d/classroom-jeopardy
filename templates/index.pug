@@ -1,20 +1,6 @@
 extends layout
-- from 'mixins.jade' import render_board with context
 
 block content
-    +render_board(data)
+    h1 Index page
 
-    .modal
-        .modal-content
-            .modal-header
-                h2.value
-                img.close(src='/static/cross.svg')
-
-            p.question
-            p.answer
-
-            form(method='POST')
-                input.answer(name='answer', placeholder='Answer')
-                button(type='submit') Submit
-
-        .blanket
+    p Nothing here yet

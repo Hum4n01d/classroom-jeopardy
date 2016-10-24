@@ -1,33 +1,18 @@
-mixin render_board(data)
-    .board
-        ul
-            for category in data[0]
-                li= category.title
+extends layout
 
-        .board-main
-            for category in data[1::]
-                ul
-                    for question in category
-                        li.clue
-                            p.value= question.value
-                            p.question= question.question
+mixin render_field(field)
+    if field.errors
+        for error in field.errors
+            .notification.error= error
 
-                            p.answer= question.answer
+    =field(placeholder=field.label.text)
 
-mixin render_form(form, id='', action='Submit')
-    form(method='POST', action='', id=id)
-        //#{form.hidden_tag()}
+mixin render_form(form, action='Submit')
+    form(method='POST', action='')
+        =form.hidden_tag()
 
         each field in form
             fieldset
-                if field.errors
-                    each error in field.errors
-                        .notification.error
-                            #{error}
+                +render_field(field)
 
-                if not field.label.text == 'Csrf Token'
-                    =field.label
-
-                #{field(placeholder=field.label.text)}
-
-        button(type='submit') #{action}
+        button(type='submit')= action

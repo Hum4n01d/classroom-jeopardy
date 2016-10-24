@@ -1,14 +1,13 @@
-from flask_wtf import Form
-from wtforms import StringField, IntegerField
-from wtforms.validators import DataRequired
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField
+from wtforms.validators import DataRequired, Length, EqualTo, Email
 
-class ClueForm(Form):
-    question = StringField('Question', validators=[
-        DataRequired()
-    ])
-    answer = StringField('Answer', validators=[
-        DataRequired()
-    ])
-    value = IntegerField('Value', validators=[
-        DataRequired()
-    ])
+class LoginForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+
+class SignupForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    email = StringField('Email Address', validators=[DataRequired(), Email()])
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=6)])
+    password_confirm = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password', message='Passwords must match')])
