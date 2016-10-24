@@ -10,7 +10,7 @@ from accounts import accounts
 import models
 
 app = Flask(__name__)
-app.config['WTF_CSRF_ENABLED'] = False
+# app.config['WTF_CSRF_ENABLED'] = False
 
 app.secret_key = urandom(24)
 app.jinja_env.add_extension('pypugjs.ext.jinja.PyPugJSExtension')
