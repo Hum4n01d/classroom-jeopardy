@@ -1,72 +1,188 @@
-# -*- coding: utf-8 -*-
+import json
 
-data = '''Console.log(); - How do you print to the console?
-<p></p> - How do you make a paragraph tag?
-import module - How do you import a module?
-42 - What is 7*6?
-#el {color: red;} - How do you change the text color of an element?
-/* comment */ - How do you write a multiline comment in Javascript?
-<!DOCTYPE html> - How do you define an HTML 5 Doctype
-"Hello {}".format(name) - How do you do string interpolation?
-13 - What is the square root of 169?
-#el {marign: 0 10px;} - How do you add padding only on the sides of an element?
-parseInt(); - How do you convert another type to an integer?
-<ul></ul> - How do you make an unordered list?
-__init__() - What function runs when you create an instance of a class?
-697 - What is 41*51/3?
-#el {display: flex;} - How do you define a flex box container?
-require('module') - How do you import a module?
-<label for="name"></label> - How do you make a label that, when clicked, focuses on the input with id name?
-An iterable range instance with numbers in the range - What does the range function produce?
-4x^2-64 - What is (4(x-2))^2 in expanded form?
-#el {background-image: linear-gradient(green, red);} - How do you set an element’s background to a gradient from green to red?
-new Prototype() - How do you create an instance of a prototype?
-<div contenteditable="true"></div> - How do you make an element editable?
-lambda x: x + 1 - What is the syntax of a lambda that adds one to a given number?
-46 - What is the square root of 21 rounded to the nearest tenth times 10?
-#el {-webkit-backdrop-filter: blur(3px)} - How do you add a macOS Yosemite style background blur to an element?'''
+data = [
+    [
+        "Javascript",
+        "HTML",
+        "Python",
+        "Math",
+        "CSS"
+    ],
+    {
+    	'question': 'How do you print to the console?',
+    	'category': 'Javascript',
+    	'answer': 'Console.log();',
+    	'value': '200'
+    }, {
+    	'question': 'How do you make a paragraph tag?',
+    	'category': 'HTML',
+    	'answer': '<p></p>',
+    	'value': '200'
+    }, {
+    	'question': 'How do you import a module?',
+    	'category': 'Python',
+    	'answer': 'import module',
+    	'value': '200'
+    }, {
+    	'question': 'What is 7*6?',
+    	'category': 'Math',
+    	'answer': '42',
+    	'value': '200'
+    }, {
+    	'question': 'How do you change the text color of an element?',
+    	'category': 'CSS',
+    	'answer': '#el {color: red;}',
+    	'value': '400'
+    }, {
+    	'question': 'How do you write a multiline comment in Javascript?',
+    	'category': 'Javascript',
+    	'answer': '/* comment */',
+    	'value': '400'
+    }, {
+    	'question': 'How do you define an HTML 5 Doctype',
+    	'category': 'HTML',
+    	'answer': '<!DOCTYPE html>',
+    	'value': '400'
+    }, {
+    	'question': 'How do you do string interpolation?',
+    	'category': 'Python',
+    	'answer': '"Hello {}".format(name)',
+    	'value': '400'
+    }, {
+    	'question': 'What is the square root of 169?',
+    	'category': 'Math',
+    	'answer': '13',
+    	'value': '400'
+    }, {
+    	'question': 'How do you add padding only on the sides of an element?',
+    	'category': 'CSS',
+    	'answer': '#el {marign: 0 10px;}',
+    	'value': '600'
+    }, {
+    	'question': 'How do you convert another type to an integer?',
+    	'category': 'Javascript',
+    	'answer': 'parseInt();',
+    	'value': '600'
+    }, {
+    	'question': 'How do you make an unordered list?',
+    	'category': 'HTML',
+    	'answer': '<ul></ul>',
+    	'value': '600'
+    }, {
+    	'question': 'What function runs when you create an instance of a class?',
+    	'category': 'Python',
+    	'answer': '__init__()',
+    	'value': '600'
+    }, {
+    	'question': 'What is 41*51/3?',
+    	'category': 'Math',
+    	'answer': '697',
+    	'value': '600'
+    }, {
+    	'question': 'How do you define a flex box container?',
+    	'category': 'CSS',
+    	'answer': '#el {display: flex;}',
+    	'value': '800'
+    }, {
+    	'question': 'How do you import a module?',
+    	'category': 'Javascript',
+    	'answer': "require('module')",
+    	'value': '800'
+    }, {
+    	'question': 'How do you make a label that, when clicked, focuses on the input with id name?',
+    	'category': 'HTML',
+    	'answer': '<label for="name"></label>',
+    	'value': '800'
+    }, {
+    	'question': 'What does the range function produce?',
+    	'category': 'Python',
+    	'answer': 'An iterable range instance with numbers in the range',
+    	'value': '800'
+    }, {
+    	'question': 'What is (4(x-2))^2 in expanded form?',
+    	'category': 'Math',
+    	'answer': '4x^2-64',
+    	'value': '800'
+    }, {
+    	'question': 'How do you set an element\xe2\x80\x99s background to a gradient from green to red?',
+    	'category': 'CSS',
+    	'answer': '#el {background-image: linear-gradient(green, red);}',
+    	'value': '1000'
+    }, {
+    	'question': 'How do you create an instance of a prototype?',
+    	'category': 'Javascript',
+    	'answer': 'new Prototype()',
+    	'value': '1000'
+    }, {
+    	'question': 'How do you make an element editable?',
+    	'category': 'HTML',
+    	'answer': '<div contenteditable="true"></div>',
+    	'value': '1000'
+    }, {
+    	'question': 'What is the syntax of a lambda that adds one to a given number?',
+    	'category': 'Python',
+    	'answer': 'lambda x: x + 1',
+    	'value': '1000'
+    }, {
+    	'question': 'What is the square root of 21 rounded to the nearest tenth times 10?',
+    	'category': 'Math',
+    	'answer': '46',
+    	'value': '1000'
+    }, {
+    	'question': 'How do you add a macOS Yosemite style background blur to an element?',
+    	'category': 'CSS',
+    	'answer': '#el {-webkit-backdrop-filter: blur(3px)}',
+    	'value': '1000'
+    }
+]
 
-data = data.split('\n')
-counter = 1
-counter2 = 1
+javascript = []
+python = []
+math = []
+css = []
+html = []
+
 new = []
 
-for i in data:
-    parsed = i.split(' - ')
-
-    new_obj = {}
-    new_obj['question'] = parsed[0]
-    new_obj['answer'] = parsed[1]
-
-    if counter < 5:
-        value = '200'
-    elif counter < 10:
-        value = '400'
-    elif counter < 15:
-        value = '600'
-    elif counter < 20:
-        value = '800'
-    elif counter < 25:
-        value = '1000'
-
-    if counter2 == 1:
-        category = 'Javascript'
-    elif counter2 == 2:
-        category = 'HTML'
-    elif counter2 == 3:
-        category = 'Python'
-    elif counter2 == 4:
-        category = 'Math'
+for question in data[1::]:
+    category = question['category'].lower()
+    if category == 'javascript':
+        javascript.append(question)
+    elif category == 'css':
+        css.append(question)
+    elif category == 'html':
+        html.append(question)
+    elif category == 'python':
+        python.append(question)
     else:
-        category = 'CSS'
-        counter2 = 0
+        math.append(question)
 
-    new_obj['value'] = value
-    new_obj['category'] = category
+name = 'html'
+_list = html
 
-    new.append(new_obj)
+new_obj = {
+    "name": name,
+    "questions": [
 
-    counter += 1
-    counter2 += 1
+    ]
+}
 
-open('mock.py', 'w').write('data = '+str(new))
+for question in _list:
+    question2 = question
+    del question2['category']
+    new_obj['questions'].append(question2)
+
+json.dump(new_obj, open('t.json', 'w'))
+# d = [
+#     {
+#         "category_name": "math",
+#         "questions": [
+#             {
+#                 "title": "test question"
+#             },
+#             {
+#                 "title": "test question 2"
+#             }
+#         ]
+#     }
+# ]
