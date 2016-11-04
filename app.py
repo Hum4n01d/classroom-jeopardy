@@ -6,14 +6,17 @@ from flask_login import LoginManager, current_user
 
 from files import the_files
 from accounts import accounts
+from game import game
 
 import models
 
 app = Flask(__name__)
-# app.config['WTF_CSRF_ENABLED'] = False
 
 app.secret_key = urandom(24)
 app.jinja_env.add_extension('pypugjs.ext.jinja.PyPugJSExtension')
+
+app.register_blueprint(accounts)
+app.register_blueprint(game)
 
 @app.context_processor
 def inject_user():
@@ -35,6 +38,7 @@ def load_user(userid):
 def before_request():
     """Connect to the database before each request."""
     g.db = models.db_proxy
+    g.name = 'Jeopardy'
     g.db.connect()
     g.user = current_user
 
@@ -44,11 +48,13 @@ def after_request(response):
     g.db.close()
     return response
 
-app.register_blueprint(accounts)
-
 @app.route('/')
 def index():
     return render_template('index.pug')
+
+@app.route('/favicon.ico')
+def favicorn():
+    return 'nope lol'
 
 if __name__ == '__main__':
     models.initialize()

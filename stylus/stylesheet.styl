@@ -1,10 +1,11 @@
-@import 'https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css'
-@import 'font.styl'
+// @import 'https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css'
+@import 'normalize.min.css'
+// @import 'font.styl'
 
 margin = 10px
 
 body
-    font-family 'Roboto Slab', "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif
+    font-family 'Roboto Slab', 'Roboto', "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif
 
 *
     box-sizing border-box
@@ -98,8 +99,4 @@ form
     > p
         margin 0
 
-@media screen and (min-width: 700px)
-    .main-header,
-    .main-body,
-    .main-footer
-        margin 0 10vw
+@import 'game.styl'

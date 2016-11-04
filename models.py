@@ -18,7 +18,11 @@ class User(UserMixin, BaseModel):
     password = CharField(max_length=100)
     joined_date = DateTimeField(default=datetime.now)
 
+class Board(BaseModel):
+    name = CharField()
+    json_data = TextField()
+
 def initialize():
     db_proxy.connect()
-    db_proxy.create_tables([User], safe=True)
+    db_proxy.create_tables([User, Board], safe=True)
     db_proxy.close()

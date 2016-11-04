@@ -1,3 +1,4 @@
+// Flashes
 $('.flashes').fadeIn();
 
 $('.flashes').mouseenter(function() {

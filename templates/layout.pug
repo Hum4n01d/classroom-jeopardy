@@ -1,7 +1,7 @@
 doctype html
 html
     head
-        name = 'Some app'
+        name = g.name
         title= name
         meta(charset='utf-8')
         link(href='/static/css/stylesheet.min.css', rel='stylesheet')
@@ -18,7 +18,7 @@ html
                 a(href=url_for('index')) #[h1= name]
 
                 nav
-                    if user.is_authenticated()
+                    if user.is_authenticated
                         a(href='') Welcome #{user.username}
                         a(href=url_for('accounts.log_out')) Log out
 
@@ -30,11 +30,23 @@ html
             .main-body
                 block content
 
+                .modal-blanket
+
+                .modal
+                    .modal-question
+                        h2.question-category
+                        h1.question
+
+                    .timer
+                        p Player #[span.player-num], you have
+                        p.timer-text
+                        p seconds left to answer
+
         footer
             .main-footer
-                p
-                    | &copy;2016
-                    =name
+                p &copy;2016 #{name}
 
-        script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js')
+        //- script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js')
+        script(src='/static/js/jquery.min.js')
         script(src='/static/js/frontend.js')
+        script(src='/static/js/game.js')

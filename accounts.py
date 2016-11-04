@@ -21,7 +21,7 @@ def log_in():
 
             if check_password_hash(user.password, form.password.data):
                 login_user(user)
-                flash('Welcome {}, You are now logged in!'.format(user.username))
+                flash('Welcome {}!'.format(user.username))
 
                 return redirect(url_for('index'))
             else:
@@ -44,7 +44,7 @@ def sign_up():
                 password=generate_password_hash(form.password.data)
             )
             login_user(user)
-            flash('Welcome to Chap {}! You are now logged in'.format(form.username.data))
+            flash('Welcome to Jeopardy, {}! You are now logged in'.format(form.username.data))
 
             return redirect(url_for('index'))
 

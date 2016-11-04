@@ -12,4 +12,4 @@ if use_heroku_postgres:
     url = parse.urlparse(database_url)
     db = PostgresqlDatabase(database=url.path[1:], user=url.username, password=url.password, host=url.hostname, port=url.port)
 else:
-    db = SqliteDatabase('chap.db')
+    db = SqliteDatabase('jeopardy.db')

@@ -1,0 +1,21 @@
+mixin render_board(board_data)
+    .board
+        each category in board_data
+            questions = category.questions
+
+            ul.category
+                li.category-title= category.name
+
+                each question in questions
+                    li.question
+                        p= question.value
+                        p.question-text= question.question
+
+
+extends mixins
+
+block content
+    if create
+        h1 Create Jeopardy Game!
+
+    +render_board(board_data)
