@@ -11,6 +11,8 @@ game = Blueprint('game', __name__, url_prefix='/game')
 #
 #     return render_template('game.pug', create=True, board=data)
 
+
+
 @game.route('/<board_id>')
 def play_game(board_id):
     try:
@@ -18,6 +20,15 @@ def play_game(board_id):
     except models.DoesNotExist:
         abort(404)
 
-    board_data = eval(board.json_data)
+    board_data = loads(board.json_data)['game']
 
     return render_template('game.pug', board_data=board_data)
+
+@game.route('/<board_id>/teacher')
+def teacher_client(board_id):
+    try:
+        board = models.Board.get(models.Board.id == board_id)
+    except models.DoesNotExist:
+        abort(404)
+
+    return render_template('teacher.pug')

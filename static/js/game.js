@@ -1,38 +1,62 @@
+socket.on('question', function (q) {
+    console.log('got a question for the teacher:'+q)
+})
+
+var scoreOne = 0;
+var scoreTwo = 0;
+var question;
+
+function updateScores() {
+    $('.score-one').text(scoreOne)
+    $('.score-two').text(scoreTwo)
+}
+
+updateScores()
+
 $('.board .question').click(function() {
-    var question = $(this).children('.question-text').text();
+    var question_text = $(this).children('.question-text').text();
+    var answer = atob($(this).children('.answer').text());
     var category = $(this).siblings('.category-title').text();
-    var $els = $('.modal, .modal-blanket');
 
-    $els.show();
-    $els.addClass('in');
+    question = {
+        question: question_text,
+        answer: answer,
+        category: category
+    }
 
-    $('.modal .question').text(question);
+    $('.modal-wrap').slideDown();
+
+    $('.modal .question').text(question_text);
     $('.modal .question-category').text(category);
 });
 
-$('.modal-blanket').click(function() {
-    $('.modal, .modal-blanket').removeClass('in');
+$('.modal-blanket, .close').click(function() {
+    $('.modal-wrap').slideUp(function() {
+        $('.modal-question').attr('style', '');
+        $('.timer').replaceWith($clone.clone());
+        someone_buzzed = false;
+    });
 });
 
 // Buzzing
-var default_time = 2;
+var default_time = 0;
 var someone_buzzed = false;
+var $clone = $('.timer').clone();
 
 function start_timer() {
     var current_time = default_time;
     var $timer = $('.timer-text');
 
-    $('.timer').show();
+    $('.timer-content').fadeIn();
+    $('.timer-instructions').hide();
 
     for (i = default_time+1; i > 0; i--) {
         $timer.text(current_time);
 
         $timer.animate({
-            // fontSize: '6em',
             opacity: 1
         }, 1000, function() {
             $timer.css({
-                // fontSize: '4em',
                 opacity: 0
             });
 
@@ -45,7 +69,11 @@ function start_timer() {
         $timer.animate({
             opacity: 1
         }, 500);
-        // $('.timer > *:not(".timer-text")').fadeOut();
+
+        $('.modal-question').hide();
+        $timer.animate({
+            fontSize: '5em'
+        });
         $timer.text('Time\'s Up!');
     });
 }
@@ -53,6 +81,8 @@ function start_timer() {
 function answer(player_num) {
     someone_buzzed = true;
     $('.player-num').text(player_num);
+    console.log(socket);
+    socket.emit('new question', question)
     start_timer();
 }
 

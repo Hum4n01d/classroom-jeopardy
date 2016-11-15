@@ -10,7 +10,7 @@ mixin render_board(board_data)
                     li.question
                         p= question.value
                         p.question-text= question.question
-
+                        p.answer= question.answer | encode
 
 extends mixins
 
@@ -18,4 +18,13 @@ block content
     if create
         h1 Create Jeopardy Game!
 
+    .scores
+        p Team 1: #[span.score-one]
+        p Team 2: #[span.score-two]
+
     +render_board(board_data)
+
+    include modal
+
+block scripts
+    script(src='/static/js/game.js')

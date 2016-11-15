@@ -1,3 +1,5 @@
+var socket = io.connect('http://' + document.domain + ':' + location.port);
+
 // Flashes
 $('.flashes').fadeIn();
 

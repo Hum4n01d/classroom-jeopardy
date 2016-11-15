@@ -8,6 +8,9 @@
         padding 0
         border-right 1px solid #999
 
+        .answer
+            display none
+
         &:last-child
             border none
 
@@ -37,80 +40,56 @@
                 border none
 
 .modal-wrap
-    opacity 0
-
-    &.open
-        opacity 1
-
-        .modal-blanket,
-        .modal
-            z-index 10
-
-        .modal
-            width auto
-            height auto
-            opacity 1
-
-        .modal-blanket
-            top 0
-            left 0
-            width 100vw
-            height 100vh
-            opacity 1
-
-    .modal-blanket,
-    .modal
-        z-index -10
-
-    .modal-blanket
-        background-color #eee
-        position fixed
-
-        bottom 50%
-        right 50%
-        opacity 0.5
-        transition 1s
+    display none
+    z-index 1
+    position absolute
+    top 0
+    left 0
+    width 100%
 
     .modal
         position absolute
-        top 45vh
-        left 45vw
+        top 0
+        background-color #eee
+        width 90%
+        margin 5%
+        padding 20px
 
-        width 10vw
-        height 10vw
-        top 25%
-        left 25%
-
-        transition 1s
-        opacity 0
-
-        .modal-question
-            padding 50px
-            width 100vw
-
-            .question-category
-                color #888
+        img.close
+            position absolute
+            top 0
+            right 0
+            width 40px
+            margin 10px
 
         .timer
-            text-align center
-            position relative
 
-            width 50vw
-            height 200px
-            margin 200px 25vw
+            .timer-instructions
+                display flex
+                justify-content space-around
 
-            > p
-                margin 0
+                p
+                    margin 0
+                    background-color #cecece
+                    padding 10px
 
-                &:first-child
-                    margin-bottom 125px
+            .timer-content
+                display none
 
-            .timer-text
-                position absolute
-                top 10px
-                left 10%
-                right 10%
-                width 80%
-                font-size 6em
-                opacity 0.5
-                margin 10px 0
+                .player-num::after
+                    text-align center
+                    content ':'
+
+                .timer-text
+                    font-size 5em
+                    text-align center
+                    margin-bottom 10px
+
+    .modal-blanket
+        background-color rgba(100, 100, 100, 0.75);
+        width 100vw
+        height 100vh
+
+    .modal-blanket,
+    img.close
+        cursor pointer
