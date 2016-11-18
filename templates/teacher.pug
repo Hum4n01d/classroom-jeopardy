@@ -1,17 +1,18 @@
 extends layout
 
 block content
-    h1 Teacher
+    .teacher
+        h1 Teacher
 
-    p.status No messages
+        p.no-messages No messages
 
-    .question
-        .question-text
-        .answer
+        .question
+            .question-text
+            .answer
 
-        .buttons
-            button(type="button", name="button") Correct
-            button(type="button", name="button") Incorrect
+            .buttons
+                button(type="button", name="button", class="correct") Correct
+                button(type="button", name="button", class="incorrect") Incorrect
 
 
 block scripts

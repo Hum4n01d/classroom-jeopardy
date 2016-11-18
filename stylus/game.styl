@@ -20,6 +20,10 @@
         .question
             cursor pointer
 
+            &.disabled
+                background-color #eee
+                cursor auto
+
             .question-text
                 display none
 
@@ -30,7 +34,7 @@
             align-items center
             border-bottom 1px solid #999
             margin 0
-            padding 30px 10px
+            padding 40px 10px
             list-style none
 
             > p
@@ -54,6 +58,9 @@
         width 90%
         margin 5%
         padding 20px
+
+        // .ios-keyboard
+            // display none
 
         img.close
             position absolute

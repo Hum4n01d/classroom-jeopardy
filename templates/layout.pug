@@ -3,8 +3,9 @@ html
     head
         name = g.name
         title= name
-        meta(charset='utf-8')
         link(href='/static/css/stylesheet.min.css', rel='stylesheet')
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        meta(charset='utf-8')
 
     body
         messages = get_flashed_messages(with_categories=True)

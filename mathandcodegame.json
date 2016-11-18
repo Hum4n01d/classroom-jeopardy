@@ -1,7 +1,8 @@
 {
+    "title": "Math and Code Game",
     "game": [
         {
-        	"name": "Javascript",
+        	"title": "Javascript",
         	"questions": [{
         		"answer": "Console.log();",
         		"question": "How do you print to the console?",
@@ -25,7 +26,7 @@
         	}]
         },
         {
-        	"name": "Python",
+        	"title": "Python",
         	"questions": [{
         		"answer": "import module",
         		"question": "How do you import a module?",
@@ -49,7 +50,7 @@
         	}]
         },
         {
-        	"name": "Math",
+        	"title": "Math",
         	"questions": [{
         		"answer": "42",
         		"question": "What is 7*6?",
@@ -73,7 +74,7 @@
         	}]
         },
         {
-        	"name": "CSS",
+        	"title": "CSS",
         	"questions": [{
         		"answer": "#el {color: red;}",
         		"question": "How do you change the text color of an element?",
@@ -97,7 +98,7 @@
         	}]
         },
         {
-        	"name": "HTML",
+        	"title": "HTML",
         	"questions": [{
         		"answer": "<p></p>",
         		"question": "How do you make a paragraph tag?",

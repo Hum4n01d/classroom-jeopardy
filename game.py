@@ -9,9 +9,7 @@ game = Blueprint('game', __name__, url_prefix='/game')
 # def create():
 #     from math_and_code_game import data
 #
-#     return render_template('game.pug', create=True, board=data)
-
-
+#     return render_template('board.pug', create=True, board=data)
 
 @game.route('/<board_id>')
 def play_game(board_id):
@@ -20,9 +18,13 @@ def play_game(board_id):
     except models.DoesNotExist:
         abort(404)
 
-    board_data = loads(board.json_data)['game']
+    categories = list(board.category_set)
+    board.category_set = categories
 
-    return render_template('game.pug', board_data=board_data)
+    for category in categories:
+        category.question_set = list(category.question_set)
+
+    return render_template('board.pug', board=board)
 
 @game.route('/<board_id>/teacher')
 def teacher_client(board_id):

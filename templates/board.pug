@@ -1,28 +1,25 @@
-mixin render_board(board_data)
+mixin render_board(board)
     .board
-        each category in board_data
-            questions = category.questions
-
+        each category in board.category_set
             ul.category
-                li.category-title= category.name
+                li.category-title= category.title
 
-                each question in questions
+                each question in category.question_set
                     li.question
-                        p= question.value
+                        p.value= question.value
                         p.question-text= question.question
                         p.answer= question.answer | encode
 
 extends mixins
 
 block content
-    if create
-        h1 Create Jeopardy Game!
+    h2= board.title
 
     .scores
         p Team 1: #[span.score-one]
         p Team 2: #[span.score-two]
 
-    +render_board(board_data)
+    +render_board(board)
 
     include modal
 

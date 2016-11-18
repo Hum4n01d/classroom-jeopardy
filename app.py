@@ -1,6 +1,5 @@
-#!/users/kent/virtualenvs/chap/bin/python3
-
 from os import environ, urandom
+
 from base64 import b64encode
 from json import dumps
 
@@ -34,6 +33,16 @@ def new_question(question):
 @socketio.on('question')
 def question(q):
     print('got a question for the teacher:'+q)
+
+@socketio.on('correct')
+def correct(question):
+    print('got correct: '+str(question))
+    emit('correct', question, broadcast=True)
+
+@socketio.on('incorrect')
+def incorrect(question):
+    print('got incorrect: '+str(question))
+    emit('incorrect', question, broadcast=True)
 
 app.jinja_env.add_extension('pypugjs.ext.jinja.PyPugJSExtension')
 
@@ -79,11 +88,11 @@ def after_request(response):
 def index():
     return render_template('index.pug')
 
-@app.route('/favicon.ico')
-def favicorn():
-    return 'nope lol'
-
 if __name__ == '__main__':
     models.initialize()
 
-    socketio.run(app, port=int(environ.get('PORT', 3000)), debug=environ.get('DEBUG', False), extra_files=the_files)
+    PORT = int(environ.get('PORT', 3000))
+    HOST = '0.0.0.0'
+    DEBUG = environ.get('DEBUG', False)
+
+    socketio.run(app, port=PORT, host=HOST, debug=DEBUG, extra_files=the_files)

@@ -1,24 +1,28 @@
-socket.on('question', function (q) {
-    console.log('got a question for the teacher:'+q)
-})
+var teamOneScore = 0;
+var teamTwoScore = 0;
 
-var scoreOne = 0;
-var scoreTwo = 0;
 var question;
+var $questionEl;
 
 function updateScores() {
-    $('.score-one').text(scoreOne)
-    $('.score-two').text(scoreTwo)
+    $('.score-one').text(teamOneScore)
+    $('.score-two').text(teamTwoScore)
 }
 
 updateScores()
 
 $('.board .question').click(function() {
+    if ($(this).hasClass('disabled')) return false
+
+    $questionEl = $(this)
+
+    var value = $(this).children('.value').text();
     var question_text = $(this).children('.question-text').text();
     var answer = atob($(this).children('.answer').text());
     var category = $(this).siblings('.category-title').text();
 
     question = {
+        value: value,
         question: question_text,
         answer: answer,
         category: category
@@ -31,16 +35,22 @@ $('.board .question').click(function() {
 });
 
 $('.modal-blanket, .close').click(function() {
+    closeModal();
+});
+
+function closeModal() {
+    someone_buzzed = false;
     $('.modal-wrap').slideUp(function() {
         $('.modal-question').attr('style', '');
         $('.timer').replaceWith($clone.clone());
         someone_buzzed = false;
     });
-});
+}
 
 // Buzzing
-var default_time = 0;
+var default_time = 5;
 var someone_buzzed = false;
+var team_that_buzzed;
 var $clone = $('.timer').clone();
 
 function start_timer() {
@@ -71,17 +81,17 @@ function start_timer() {
         }, 500);
 
         $('.modal-question').hide();
-        $timer.animate({
-            fontSize: '5em'
-        });
         $timer.text('Time\'s Up!');
     });
 }
 
-function answer(player_num) {
+function answer(team_num) {
+    $questionEl.addClass('disabled')
+
+    team_buzzed = team_num;
     someone_buzzed = true;
-    $('.player-num').text(player_num);
-    console.log(socket);
+    $('.player-num').text(team_num);
+
     socket.emit('new question', question)
     start_timer();
 }
@@ -92,3 +102,23 @@ $(document).keypress(function(e) {
         if (e.key == 'm') answer(2);
     }
 });
+
+function handle_answer(question, correct) {
+    value = parseInt(question.value);
+
+    if (!correct) value = 0 - value
+
+    if (team_buzzed == 1) teamOneScore += value;
+    else if (team_buzzed == 2) teamTwoScore += value;
+
+    updateScores();
+    closeModal();
+}
+
+// Once teacher answers
+socket.on('correct', function (question) {
+    handle_answer(question, true);
+})
+socket.on('incorrect', function (question) {
+    handle_answer(question, false);
+})

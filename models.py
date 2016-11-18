@@ -18,11 +18,28 @@ class User(UserMixin, BaseModel):
     password = CharField(max_length=100)
     joined_date = DateTimeField(default=datetime.now)
 
+class BaseModel(Model):
+    class Meta:
+        database = db_proxy
+
 class Board(BaseModel):
-    name = CharField()
-    json_data = TextField()
+    title = CharField()
+    date_created = DateTimeField(default=datetime.now)
+    categories = TextField()  # A csv
+
+class Category(BaseModel):
+    title = CharField()
+    board = ForeignKeyField(Board)
+
+class Question(BaseModel):
+    value = IntegerField()
+    question = TextField()
+    answer = TextField()
+    date_created = DateTimeField(default=datetime.now)
+    board = ForeignKeyField(Board)
+    category = ForeignKeyField(Category)
 
 def initialize():
     db_proxy.connect()
-    db_proxy.create_tables([User, Board], safe=True)
+    db_proxy.create_tables([User, Question, Category, Board], safe=True)
     db_proxy.close()
