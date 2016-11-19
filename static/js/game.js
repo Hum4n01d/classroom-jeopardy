@@ -1,3 +1,9 @@
+// Buzzing
+// var default_time = 5;
+var default_time = 0;
+var someone_buzzed = false;
+var $clone = $('.timer').clone();
+
 var teamOneScore = 0;
 var teamTwoScore = 0;
 
@@ -5,16 +11,18 @@ var question;
 var $questionEl;
 
 function updateScores() {
-    $('.score-one').text(teamOneScore)
+    $('.score-one').text(teamOneScore);
     $('.score-two').text(teamTwoScore)
 }
 
-updateScores()
+updateScores();
 
-$('.board .question').click(function() {
-    if ($(this).hasClass('disabled')) return false
+$('.board-question').click(function() {
+    if ($(this).hasClass('disabled')) return false;
 
-    $questionEl = $(this)
+    $('.close').fadeIn();
+
+    $questionEl = $(this);
 
     var value = $(this).children('.value').text();
     var question_text = $(this).children('.question-text').text();
@@ -26,39 +34,29 @@ $('.board .question').click(function() {
         question: question_text,
         answer: answer,
         category: category
-    }
+    };
 
-    $('.modal-wrap').slideDown();
+    $('.question-wrap').slideDown();
 
-    $('.modal .question').text(question_text);
-    $('.modal .question-category').text(category);
+    $('.question h1.question-text').text(question_text);
+    $('.question .question-category').text(category);
 });
 
-$('.modal-blanket, .close').click(function() {
-    closeModal();
+$('.question-blanket, .close').click(function() {
+    if (!someone_buzzed) closequestion();
 });
 
-function closeModal() {
+function closequestion() {
     someone_buzzed = false;
-    $('.modal-wrap').slideUp(function() {
-        $('.modal-question').attr('style', '');
+    $('.question-wrap').slideUp(function() {
+        $('.question-question').attr('style', '');
         $('.timer').replaceWith($clone.clone());
         someone_buzzed = false;
     });
 }
 
-// Buzzing
-var default_time = 5;
-var someone_buzzed = false;
-var team_that_buzzed;
-var $clone = $('.timer').clone();
-
-function start_timer() {
+function start_timer($timer) {
     var current_time = default_time;
-    var $timer = $('.timer-text');
-
-    $('.timer-content').fadeIn();
-    $('.timer-instructions').hide();
 
     for (i = default_time+1; i > 0; i--) {
         $timer.text(current_time);
@@ -80,20 +78,26 @@ function start_timer() {
             opacity: 1
         }, 500);
 
-        $('.modal-question').hide();
+        $('.question-question').hide();
         $timer.text('Time\'s Up!');
     });
 }
 
 function answer(team_num) {
-    $questionEl.addClass('disabled')
+    $questionEl.addClass('disabled');
 
     team_buzzed = team_num;
     someone_buzzed = true;
     $('.player-num').text(team_num);
 
-    socket.emit('new question', question)
-    start_timer();
+    socket.emit('new question', question);
+
+    $('.close').fadeOut();
+
+    $('.timer-content').fadeIn();
+    $('.timer-instructions').hide();
+
+    start_timer($('.timer-text'));
 }
 
 $(document).keypress(function(e) {
@@ -106,19 +110,19 @@ $(document).keypress(function(e) {
 function handle_answer(question, correct) {
     value = parseInt(question.value);
 
-    if (!correct) value = 0 - value
+    if (!correct) value = 0 - value;
 
     if (team_buzzed == 1) teamOneScore += value;
     else if (team_buzzed == 2) teamTwoScore += value;
 
     updateScores();
-    closeModal();
+    closequestion();
 }
 
 // Once teacher answers
 socket.on('correct', function (question) {
     handle_answer(question, true);
-})
+});
 socket.on('incorrect', function (question) {
     handle_answer(question, false);
-})
+});
