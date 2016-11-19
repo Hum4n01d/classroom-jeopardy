@@ -2,6 +2,8 @@ from datetime import datetime
 from peewee import *
 from flask_login import UserMixin
 
+import json
+
 from db_init import db
 
 db_proxy = Proxy()
@@ -46,3 +48,36 @@ def initialize():
     db_proxy.connect()
     db_proxy.create_tables([User, Question, Category, Board], safe=True)
     db_proxy.close()
+
+
+def create_my_game(raw_json=json.load(open('mathandcodegame.json'))):
+    db_proxy.connect()
+
+    raw_game = raw_json['game']
+
+    title = raw_json['title']
+
+    category_titles = [category['title'] for category in raw_game]
+
+    categories_csv = ','.join(category_titles)
+
+    board = Board.create(
+        title=title,
+        categories=categories_csv
+    )
+
+    for category in raw_game:
+        category_db = Category.create(
+            title=category['title'],
+            board=board
+        )
+        questions = category['questions']
+
+        for question in questions:
+            Question.create(
+                value=question['value'],
+                question=question['question'],
+                answer=question['answer'],
+                board=board,
+                category=category_db
+            )
