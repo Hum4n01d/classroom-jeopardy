@@ -100,11 +100,14 @@ function answer(team_num) {
     start_timer($('.timer-text'));
 }
 
-$(document).keypress(function(e) {
-    if (!someone_buzzed) {
-        if (e.key == 'z') answer(1);
-        if (e.key == 'm') answer(2);
-    }
+// Detect keypresses. For some reason jQuery didn't work in safari
+var listener = new window.keypress.Listener();
+
+listener.simple_combo("z", function() {
+    if (!someone_buzzed) answer(1)
+});
+listener.simple_combo("m", function() {
+    if (!someone_buzzed) answer(2)
 });
 
 function handle_answer(question, correct) {

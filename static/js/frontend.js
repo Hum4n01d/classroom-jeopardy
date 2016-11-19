@@ -1,12 +1,14 @@
-var socket = io.connect('https://' + document.domain + ':' + location.port);
+var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
 
 // Flashes
-$('.flashes').fadeIn();
+var $flashes = $('.flashes');
 
-$('.flashes').mouseenter(function() {
+$flashes.fadeIn();
+
+$flashes.mouseenter(function() {
     $(this).fadeOut();
 });
 
 setTimeout(function() {
-    $('.flashes').fadeOut();
+    $flashes.fadeOut();
 }, 3000);
