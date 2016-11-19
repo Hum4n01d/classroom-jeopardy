@@ -31,6 +31,9 @@ class Category(BaseModel):
     title = CharField()
     board = ForeignKeyField(Board)
 
+    def __str__(self):
+        return self.title
+
 class Question(BaseModel):
     value = IntegerField()
     question = TextField()

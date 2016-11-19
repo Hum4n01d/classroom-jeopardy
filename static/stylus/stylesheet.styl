@@ -1,5 +1,4 @@
 @import 'https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css'
-@import 'normalize.min.css'
 @import 'font.styl'
 
 margin = 10px
@@ -23,31 +22,30 @@ a
 img
     max-width 100%
 
-form
-    fieldset
-        border none
-        padding 0
+fieldset
+    border none
+    padding 0
 
-        .error
-            margin-bottom 5px
+    .error
+        margin-bottom 5px
 
-    input,
-    textarea,
-    button
-        border 1px solid #999
-        border-radius 3px
-        padding margin
-        margin 0
-        margin-bottom margin
-        outline none
-        -webkit-appearence none
+input,
+textarea,
+button
+    border 1px solid #999
+    border-radius 3px
+    padding margin
+    margin 0
+    margin-bottom margin
+    outline none
+    -webkit-appearence none
 
-        ::-webkit-input-placeholder
-            rgba(33, 23, 23, 0.52)
+    ::-webkit-input-placeholder
+        rgba(33, 23, 23, 0.52)
 
-    input,
-    textarea
-        width 60%
+input,
+textarea
+    width 60%
 
 .flashes
     margin 0
@@ -102,6 +100,7 @@ form
 
 @import 'game.styl'
 @import 'teacher.styl'
+@import "question.styl"
 
 
 @media screen and (min-width: 900px)

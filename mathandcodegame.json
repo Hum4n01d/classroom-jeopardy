@@ -78,19 +78,19 @@
         	"questions": [{
         		"answer": "#el {color: red;}",
         		"question": "How do you change the text color of an element?",
-        		"value": "400"
+        		"value": "200"
         	}, {
         		"answer": "#el {marign: 0 10px;}",
         		"question": "How do you add padding only on the sides of an element?",
-        		"value": "600"
+        		"value": "400"
         	}, {
         		"answer": "#el {display: flex;}",
         		"question": "How do you define a flex box container?",
-        		"value": "800"
+        		"value": "600"
         	}, {
         		"answer": "#el {background-image: linear-gradient(green, red);}",
         		"question": "How do you set an element\u2019s background to a gradient from green to red?",
-        		"value": "1000"
+        		"value": "800"
         	}, {
         		"answer": "#el {-webkit-backdrop-filter: blur(3px)}",
         		"question": "How do you add a macOS Yosemite style background blur to an element?",

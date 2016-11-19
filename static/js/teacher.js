@@ -11,16 +11,16 @@ function update(new_question) {
 socket.on('question', function (new_question) {
     question = JSON.parse(new_question);
     update(question);
-})
+});
 
 $('.correct').click(function(event) {
-    socket.emit('correct', question)
+    socket.emit('correct', question);
     $('.question').fadeOut();
     $('.no-messages').fadeIn();
 });
 
 $('.incorrect').click(function(event) {
-    socket.emit('incorrect', question)
+    socket.emit('incorrect', question);
     $('.question').fadeOut();
     $('.no-messages').fadeIn();
 });

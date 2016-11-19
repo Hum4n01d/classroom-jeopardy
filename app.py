@@ -6,7 +6,6 @@ from json import dumps
 from flask import Flask, render_template, g
 from flask_login import LoginManager, current_user
 from flask_socketio import SocketIO, emit
-import pypugjs
 
 from files import the_files
 from accounts import accounts

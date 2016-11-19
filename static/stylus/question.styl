@@ -1,0 +1,74 @@
+.question-wrap
+    display none
+    z-index 1
+    position absolute
+    top 0
+    left 0
+    width 100%
+
+.question
+    position absolute
+    top 0
+    background-color #eee
+    border-radius 10px
+    width 90%
+    margin 5%
+    padding 20px
+
+    img.close
+        position absolute
+        top 0
+        right 0
+        width 40px
+        margin 10px
+
+    .timer
+        .timer-instructions
+            display flex
+            justify-content space-around
+
+            p
+                margin 0
+                background-color #cecece
+                padding 10px
+
+        .timer-content
+            display none
+
+        .player-num::after
+            text-align center
+            content ':'
+
+        .timer-text
+            font-size 5em
+            text-align center
+            margin-bottom 10px
+
+.question-blanket
+    background-color rgba(100, 100, 100, 0.75);
+    width 100vw
+    height 100vh
+
+.question-blanket,
+img.close
+    cursor pointer
+
+.teacher
+    background-color inherit
+
+    .question
+        position static
+        margin 0
+        width 100%
+
+        .answer
+            margin 0
+
+            .answer-text
+                display inline-block
+
+        .buttons button
+            border 0
+            background-color #cecece
+            padding 10px
+            margin 0

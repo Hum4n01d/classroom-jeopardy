@@ -1,0 +1,44 @@
+.board
+    display flex
+    border 1px solid #999
+
+    .category
+        margin 0
+        width 20%
+        padding 0
+        border-right 1px solid #999
+
+        .answer
+            display none
+
+        &:last-child
+            border none
+
+        .category-title
+            background-color #eee
+
+        .board-question
+            cursor pointer
+
+            &.disabled
+                background-color #eee
+                cursor auto
+
+            .question-text
+                display none
+
+        .board-question,
+        .category-title
+            display flex
+            justify-content center
+            align-items center
+            border-bottom 1px solid #999
+            margin 0
+            padding 40px 10px
+            list-style none
+
+            > p
+                margin 0
+
+            &:last-child
+                border none

@@ -5,7 +5,7 @@ mixin render_board(board)
                 li.category-title= category.title
 
                 each question in category.question_set
-                    li.question
+                    li.board-question
                         p.value= question.value
                         p.question-text= question.question
                         p.answer= question.answer | encode
@@ -21,7 +21,26 @@ block content
 
     +render_board(board)
 
-    include modal
+    .question-wrap
+        .question-blanket
+
+        .question
+            img.close(src='/static/images/close.svg')
+
+            .question-question
+                h2.question-category
+                    span
+
+                h1.question-text
+
+            .timer
+                .timer-instructions
+                    p Player 1, press the #[strong Z] key to buzz
+                    p Player 2, press the #[strong M] key to buzz
+
+                .timer-content
+                    h2 Player #[span.player-num]
+                    p.timer-text
 
 block scripts
     script(src='/static/js/game.js')

@@ -1,5 +1,4 @@
 @import 'https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css';
-@import 'normalize.min.css';
 @font-face {
   font-family: 'Roboto Slab';
   font-style: normal;
@@ -25,16 +24,16 @@ a {
 img {
   max-width: 100%;
 }
-form fieldset {
+fieldset {
   border: none;
   padding: 0;
 }
-form fieldset .error {
+fieldset .error {
   margin-bottom: 5px;
 }
-form input,
-form textarea,
-form button {
+input,
+textarea,
+button {
   border: 1px solid #999;
   border-radius: 3px;
   padding: 10px;
@@ -43,8 +42,8 @@ form button {
   outline: none;
   -webkit-appearence: none;
 }
-form input,
-form textarea {
+input,
+textarea {
   width: 60%;
 }
 .flashes {
@@ -117,17 +116,17 @@ form textarea {
 .board .category .category-title {
   background-color: #eee;
 }
-.board .category .question {
+.board .category .board-question {
   cursor: pointer;
 }
-.board .category .question.disabled {
+.board .category .board-question.disabled {
   background-color: #eee;
   cursor: auto;
 }
-.board .category .question .question-text {
+.board .category .board-question .question-text {
   display: none;
 }
-.board .category .question,
+.board .category .board-question,
 .board .category .category-title {
   display: flex;
   justify-content: center;
@@ -137,15 +136,19 @@ form textarea {
   padding: 40px 10px;
   list-style: none;
 }
-.board .category .question > p,
+.board .category .board-question > p,
 .board .category .category-title > p {
   margin: 0;
 }
-.board .category .question:last-child,
+.board .category .board-question:last-child,
 .board .category .category-title:last-child {
   border: none;
 }
-.modal-wrap {
+.teacher .buttons,
+.teacher .question {
+  display: none;
+}
+.question-wrap {
   display: none;
   z-index: 1;
   position: absolute;
@@ -153,54 +156,71 @@ form textarea {
   left: 0;
   width: 100%;
 }
-.modal-wrap .modal {
+.question {
   position: absolute;
   top: 0;
   background-color: #eee;
+  border-radius: 10px;
   width: 90%;
   margin: 5%;
   padding: 20px;
 }
-.modal-wrap .modal img.close {
+.question img.close {
   position: absolute;
   top: 0;
   right: 0;
   width: 40px;
   margin: 10px;
 }
-.modal-wrap .modal .timer .timer-instructions {
+.question .timer .timer-instructions {
   display: flex;
   justify-content: space-around;
 }
-.modal-wrap .modal .timer .timer-instructions p {
+.question .timer .timer-instructions p {
   margin: 0;
   background-color: #cecece;
   padding: 10px;
 }
-.modal-wrap .modal .timer .timer-content {
+.question .timer .timer-content {
   display: none;
 }
-.modal-wrap .modal .timer .timer-content .player-num::after {
+.question .timer .player-num::after {
   text-align: center;
   content: ':';
 }
-.modal-wrap .modal .timer .timer-content .timer-text {
+.question .timer .timer-text {
   font-size: 5em;
   text-align: center;
   margin-bottom: 10px;
 }
-.modal-wrap .modal-blanket {
+.question-blanket {
   background-color: rgba(100,100,100,0.75);
   width: 100vw;
   height: 100vh;
 }
-.modal-wrap .modal-blanket,
-.modal-wrap img.close {
+.question-blanket,
+img.close {
   cursor: pointer;
 }
-.teacher .buttons,
+.teacher {
+  background-color: inherit;
+}
 .teacher .question {
-  display: none;
+  position: static;
+  margin: 0;
+  width: 100%;
+}
+.teacher .question .answer {
+  margin: 0;
+}
+.teacher .question .answer .answer-text {
+  display: inline-block;
+}
+.teacher .question .buttons button {
+  border: 0;
+  background-color: #cecece;
+  padding: 10px;
+  margin: 0;
 }
 @media screen and (min-width: 900px) {
   .main-header,
