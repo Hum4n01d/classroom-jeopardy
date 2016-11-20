@@ -3,6 +3,7 @@ from json import loads
 from flask import Blueprint, render_template, abort, g, request
 from flask import redirect
 from flask import url_for
+from flask_login import login_required
 
 import models
 
@@ -10,7 +11,7 @@ game = Blueprint('game', __name__, url_prefix='/game')
 
 
 @game.route('/<board_id>')
-# @login_required
+@login_required
 def play(board_id):
     try:
         board = models.Board.get(models.Board.id == board_id)
@@ -27,13 +28,13 @@ def play(board_id):
 
 
 @game.route('/<board_id>/teacher')
-# @login_required
+@login_required
 def teacher(board_id):
     return render_template('teacher.pug')
 
 
 @game.route('/create', methods=['GET', 'POST'])
-# @login_required
+@login_required
 def create():
     board = {
         'title': 'Board Title',
@@ -196,7 +197,7 @@ def create():
 
     if request.method == 'POST':
         json_data = loads(request.form['json_data'])
-        board = models.create_my_game(json_data, g.user._get_current_object())
+        board = models.create_my_game(g.user._get_current_object(), json_data)
 
         return redirect(url_for('game.play', board_id=board.id))
 

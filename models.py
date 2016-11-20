@@ -58,7 +58,7 @@ def initialize():
     db_proxy.close()
 
 
-def create_my_game(raw_json=json.load(open('mathandcodegame.json')), user=User.get(User.username ** 'Hum4n01d')):
+def create_my_game(user, raw_json=json.load(open('mathandcodegame.json'))):
     db_proxy.connect()
 
     raw_game = raw_json['game']

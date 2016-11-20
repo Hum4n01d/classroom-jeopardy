@@ -71,7 +71,7 @@ function answer(player_num) {
 }
 
 
-$('.game .boaruestion').click(function() {
+$('.game .board-question').click(function() {
     if ($(this).hasClass('disabled')) return false;
 
     var value = $(this).children('.value').text();
@@ -92,7 +92,7 @@ $('.game .boaruestion').click(function() {
     $('.question-wrap').slideDown();
     $('.question').fadeIn();
 
-    var $questionEl = $('.question .question-text');
+    $questionEl = $('.question .question-text');
 
     $('.question .question-category').text(question.category)
 
@@ -137,7 +137,7 @@ function handle_answer(question, correct) {
 
     $('.celebration-wrap').css('display', 'flex');
 
-    $('.question').slideUp();
+    $('.question').fadeOut();
 
     $celebration.text(result).fadeIn();
 
