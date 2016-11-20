@@ -1,26 +1,21 @@
-from datetime import datetime
-from os import environ, urandom
-
 from base64 import b64encode
 from json import dumps
+from os import environ, urandom
 
 from flask import Flask, render_template, g
-from flask_debugtoolbar import DebugToolbarExtension
 from flask_login import LoginManager, current_user
 from flask_socketio import SocketIO, emit
 
-from files import the_files
+import models
 from accounts import accounts
+from files import the_files
 from game import game
 from users import users
-
-import models
 
 app = Flask(__name__)
 app.secret_key = urandom(24)
 
 socketio = SocketIO(app)
-toolbar = DebugToolbarExtension(app)
 
 @socketio.on('connection')
 def connected():
