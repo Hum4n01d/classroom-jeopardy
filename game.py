@@ -38,10 +38,10 @@ def delete(board_id):
     if not (board.creator == g.user or g.user.is_admin):
         abort(401)
 
-    board.delete_instance()
-
     models.Question.delete().where(models.Question.board == board)
     models.Category.delete().where(models.Category.board == board)
+
+    board.delete_instance()
 
     flash('Board deleted')
 
