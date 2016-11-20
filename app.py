@@ -84,6 +84,10 @@ def after_request(response):
 def index():
     return render_template('index.pug')
 
+@app.route('/presidents_game')
+def presidents_game():
+    return render_template('yay.pug')
+
 
 if __name__ == '__main__':
     models.initialize()

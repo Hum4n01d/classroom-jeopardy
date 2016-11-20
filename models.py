@@ -36,7 +36,7 @@ class Board(BaseModel):
 
 
 class Category(BaseModel):
-    title = CharField()
+    title = CharField(max_length=1000)
     board = ForeignKeyField(Board)
 
     def __str__(self):
