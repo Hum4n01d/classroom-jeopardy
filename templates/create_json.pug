@@ -1,0 +1,7 @@
+extends layout
+
+block content
+    form(action=url_for('game.create'), method='POST')
+        textarea(name='json_data', placeholder='Paste json data here')
+
+        button(type='submit') Save

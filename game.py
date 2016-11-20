@@ -224,13 +224,10 @@ def create():
 
     return render_template('create.pug', board=board)
 
-@game.route('/create/json', methods=['POST'])
+@game.route('/create/json')
 @login_required
 def create_json():
-    json_data = loads(request.form['json_data'])
-    board = models.create_my_game(g.user._get_current_object(), json_data)
-
-    return redirect(url_for('game.play', board_id=board.id))
+    return render_template('create_json.pug')
 
 @game.route('/all')
 def all():
