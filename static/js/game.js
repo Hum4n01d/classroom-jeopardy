@@ -9,16 +9,30 @@ var playerTwoScore = 0;
 
 var question;
 var $questionEl;
+var $elForDisabling;
 
 function updateScores() {
     $('.score-one').text(playerOneScore);
-    $('.score-two').text(playerTwoScore)
+    $('.score-two').text(playerTwoScore);
+
+    if (playerOneScore == 0 && playerTwoScore == 0) {
+        $('.scores').fadeIn();
+    } else {
+        $('.score-one, .score-two').animate({
+            fontSize: '1.5em'
+        }, 500, function () {
+            $(this).animate({
+                fontSize: '1em'
+            }, 500);
+        });
+    }
 }
 
 updateScores();
 
 function closeQuestion() {
     someone_buzzed = false;
+    $('.celebration-wrap').hide();
     $('.question-wrap').slideUp(function() {
         $('.question-question').attr('style', '');
         $('.timer').replaceWith($clone.clone());
@@ -54,7 +68,7 @@ function start_timer($timer) {
 }
 
 function answer(player_num) {
-    $questionEl.addClass('disabled');
+    $elForDisabling.addClass('disabled');
 
     player_buzzed = player_num;
     someone_buzzed = true;
@@ -70,9 +84,10 @@ function answer(player_num) {
     start_timer($('.timer-text'));
 }
 
-
 $('.game .board-question').click(function() {
     if ($(this).hasClass('disabled')) return false;
+
+    $elForDisabling = $(this)
 
     var value = $(this).children('.value').text();
     var question_text = $(this).children('.question-text').text();
@@ -121,7 +136,6 @@ function handle_answer(question, correct) {
     if (player_buzzed == 1) playerOneScore += value;
     else if (player_buzzed == 2) playerTwoScore += value;
 
-    updateScores();
 
     var result;
     var $celebration = $('.celebration');
@@ -145,9 +159,14 @@ function handle_answer(question, correct) {
         fontSize: '6em'
     }, 1000, function () {
         someone_buzzed = false;
-        $('.celebration-wrap').hide();
-        closeQuestion();
-        $('.question-wrap').delay(2000).slideUp();
+
+        setTimeout(function () {
+            closeQuestion();
+
+            setTimeout(function () {
+                updateScores();
+            }, 500);
+        }, 1000);
     });
 }
 
@@ -159,9 +178,7 @@ socket.on('incorrect', function (question) {
     handle_answer(question, false);
 });
 
-
 // Create
-// $('.create-board input:not(.value)').val('test');
 $('.create-board form').submit(function (e) {
     e.preventDefault();
 

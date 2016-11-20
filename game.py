@@ -1,6 +1,7 @@
 from json import loads
 
 from flask import Blueprint, render_template, abort, g, request
+from flask import flash
 from flask import redirect
 from flask import url_for
 from flask_login import login_required
@@ -25,6 +26,23 @@ def play(board_id):
         category.question_set = list(category.question_set)
 
     return render_template('board.pug', board=board)
+
+@game.route('/<board_id>/delete')
+@login_required
+def delete(board_id):
+    try:
+        board = models.Board.get(models.Board.id == board_id)
+    except models.DoesNotExist:
+        abort(404)
+
+    board.delete_instance()
+
+    models.Question.delete().where(models.Question.board == board)
+    models.Category.delete().where(models.Category.board == board)
+
+    flash('Board deleted')
+
+    return redirect(url_for('index'))
 
 
 @game.route('/<board_id>/teacher')

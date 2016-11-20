@@ -17,33 +17,17 @@ app.secret_key = urandom(24)
 
 socketio = SocketIO(app)
 
-@socketio.on('connection')
-def connected():
-    print('new connection')
-    emit('new question', 'hi', broadcast=True)
-
-
 @socketio.on('new question')
 def new_question(question):
-    print(question['answer'])
-    print('question: ' + str(question))
     emit('question', dumps(question), broadcast=True)
-
-
-@socketio.on('question')
-def question(q):
-    print('got a question for the teacher:' + q)
-
 
 @socketio.on('correct')
 def correct(question):
-    print('got correct: ' + str(question))
     emit('correct', question, broadcast=True)
 
 
 @socketio.on('incorrect')
 def incorrect(question):
-    print('got incorrect: ' + str(question))
     emit('incorrect', question, broadcast=True)
 
 
@@ -103,6 +87,7 @@ def index():
 
 if __name__ == '__main__':
     models.initialize()
+    print('starting')
 
     try:
         models.User.create(

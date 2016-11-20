@@ -33,6 +33,10 @@ mixin render_board(board, create=false)
         p Made by #[a(href=url_for('users.profile', username=username))= username]
 
         if not create
+            .links
+                a(href=url_for('game.teacher', board_id=board.id)) Teacher page
+                a.delete-board(href=url_for('game.delete', board_id=board.id)) Delete
+
             .scores
                 p Player 1: #[span.score-one]
                 p Player 2: #[span.score-two]
