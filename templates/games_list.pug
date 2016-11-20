@@ -1,0 +1,5 @@
+extends layout
+
+block content
+    for board in boards
+        a(href=url_for('game.play', board_id=board.id))= board.title

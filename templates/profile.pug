@@ -1,0 +1,14 @@
+extends layout
+
+block content
+    - var username = profile_user.username
+
+    .profile
+        h1= username
+        p.joined-date Joined on #{profile_user.parsed_joined_date}
+
+        .boards
+            h2 #{username}'s Boards:
+
+            for board in profile_user.board_set
+                a(href=url_for('game.play', board_id=board.id))= board.title

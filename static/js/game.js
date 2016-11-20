@@ -1,52 +1,41 @@
 // Buzzing
-// var default_time = 5;
-var default_time = 0;
+var default_time = 5;
+// var default_time = 0;
 var someone_buzzed = false;
 var $clone = $('.timer').clone();
 
-var teamOneScore = 0;
-var teamTwoScore = 0;
+var playerOneScore = 0;
+var playerTwoScore = 0;
 
 var question;
 var $questionEl;
 
 function updateScores() {
-    $('.score-one').text(teamOneScore);
-    $('.score-two').text(teamTwoScore)
+    $('.score-one').text(playerOneScore);
+    $('.score-two').text(playerTwoScore)
 }
 
 updateScores();
 
-$('.board-question').click(function() {
-    if ($(this).hasClass('disabled')) return false;
-
+function renderQuestion(question) {
     $('.close').fadeIn();
 
-    $questionEl = $(this);
-
-    var value = $(this).children('.value').text();
-    var question_text = $(this).children('.question-text').text();
-    var answer = atob($(this).children('.answer').text());
-    var category = $(this).siblings('.category-title').text();
-
-    question = {
-        value: value,
-        question: question_text,
-        answer: answer,
-        category: category
-    };
-
     $('.question-wrap').slideDown();
+    $('.question').fadeIn();
 
-    $('.question h1.question-text').text(question_text);
-    $('.question .question-category').text(category);
-});
+    var $question_el = $('.question .question-text');
 
-$('.question-blanket, .close').click(function() {
-    if (!someone_buzzed) closequestion();
-});
+    $('.question .question-category').text(question.category)
 
-function closequestion() {
+    if ($question_el.is('input')) {
+        console.log('its an input. val: '+question.question);
+        $question_el.val(question.question);
+    } else {
+        $question_el.text(question.question);
+    }
+}
+
+function closeQuestion() {
     someone_buzzed = false;
     $('.question-wrap').slideUp(function() {
         $('.question-question').attr('style', '');
@@ -78,17 +67,16 @@ function start_timer($timer) {
             opacity: 1
         }, 500);
 
-        $('.question-question').hide();
         $timer.text('Time\'s Up!');
     });
 }
 
-function answer(team_num) {
+function answer(player_num) {
     $questionEl.addClass('disabled');
 
-    team_buzzed = team_num;
+    player_buzzed = player_num;
     someone_buzzed = true;
-    $('.player-num').text(team_num);
+    $('.player-num').text(player_num);
 
     socket.emit('new question', question);
 
@@ -99,6 +87,30 @@ function answer(team_num) {
 
     start_timer($('.timer-text'));
 }
+
+
+$('.game .board-question').click(function() {
+    if ($(this).hasClass('disabled')) return false;
+
+    var value = $(this).children('.value').text();
+    var question_text = $(this).children('.question-text').text();
+    var answer = atob($(this).children('.answer').text());
+    var category = $(this).siblings('.category-title').text();
+
+
+    question = {
+        value: value,
+        question: question_text,
+        answer: answer,
+        category: category
+    };
+
+    renderQuestion(question);
+});
+
+$('.question-blanket, .close').click(function() {
+    if (!someone_buzzed) closeQuestion();
+});
 
 // Detect keypresses. For some reason jQuery didn't work in safari
 var listener = new window.keypress.Listener();
@@ -115,11 +127,37 @@ function handle_answer(question, correct) {
 
     if (!correct) value = 0 - value;
 
-    if (team_buzzed == 1) teamOneScore += value;
-    else if (team_buzzed == 2) teamTwoScore += value;
+    if (player_buzzed == 1) playerOneScore += value;
+    else if (player_buzzed == 2) playerTwoScore += value;
 
     updateScores();
-    closequestion();
+
+    var result;
+    var $celebration = $('.celebration');
+    $celebration.removeClass('correct incorrect');
+
+    if (correct) {
+        result = 'Correct!';
+        $celebration.addClass('correct');
+    }  else {
+        result = 'Incorrect';
+        $celebration.addClass('incorrect');
+    }
+
+    $('.celebration-wrap').css('display', 'flex');
+
+    $('.question').slideUp();
+
+    $celebration.text(result).fadeIn();
+
+    $celebration.animate({
+        fontSize: '6em'
+    }, 1000, function () {
+        someone_buzzed = false;
+        $('.celebration-wrap').hide();
+        closeQuestion();
+        $('.question-wrap').delay(2000).slideUp();
+    });
 }
 
 // Once teacher answers
@@ -128,4 +166,17 @@ socket.on('correct', function (question) {
 });
 socket.on('incorrect', function (question) {
     handle_answer(question, false);
+});
+
+
+// Create
+$('.create-board .board-question').click(function () {
+    // document.write('test')
+    question = {
+        value: $(this).children('.value').val(),
+        question: 'Question text',
+        answer: 'Question answer',
+        category: $(this).siblings('.category-title').val()
+    };
+    renderQuestion(question);
 });

@@ -1,11 +1,18 @@
 var question;
 
 function update(new_question) {
-    $('.no-messages').hide();
     $('.question-text').text(new_question.question);
     $('.answer').text(new_question.answer);
     $('.buttons').show();
+
     $('.question').slideDown();
+    $('.no-messages').hide();
+}
+
+function toggle() {
+    $('.question').slideToggle(function () {
+       $('.no-messages').fadeToggle();
+    });
 }
 
 socket.on('question', function (new_question) {
@@ -15,12 +22,11 @@ socket.on('question', function (new_question) {
 
 $('.correct').click(function(event) {
     socket.emit('correct', question);
-    $('.question').fadeOut();
-    $('.no-messages').fadeIn();
+
+    toggle();
 });
 
 $('.incorrect').click(function(event) {
     socket.emit('incorrect', question);
-    $('.question').fadeOut();
-    $('.no-messages').fadeIn();
+    toggle();
 });

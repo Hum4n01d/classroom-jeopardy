@@ -2,7 +2,7 @@ extends layout
 
 mixin render_field(field)
     if field.errors
-        for error in field.errors
+        each error in field.errors
             .notification.error= error
 
     =field(placeholder=field.label.text)
@@ -16,3 +16,23 @@ mixin render_form(form, action='Submit')
                 +render_field(field)
 
         button(type='submit')= action
+
+mixin render_board(board)
+    .board-wrap
+        h2.title= board.title
+        p Made by #[a(href=url_for('users.profile', username=board.creator.username))= board.creator.username]
+
+        .scores
+            p Player 1: #[span.score-one]
+            p Player 2: #[span.score-two]
+
+        .board
+            each category in board.category_set
+                ul.category
+                    li.category-title= category.title
+
+                    each question in category.question_set
+                        li.board-question
+                            p.value= question.value
+                            p.question-text= question.question
+                            p.answer= question.answer | encode

@@ -1,14 +1,41 @@
+val = 100
+modal-bg = rgba(val, val, val, 0.5)
+
 .question-wrap
+    width 100%
     display none
+
+.question-wrap,
+.question
     z-index 1
+    position fixed
+    top 0
+    left 0
+
+.celebration-wrap
+    display none
+    align-items center
+    justify-content center
     position absolute
     top 0
     left 0
-    width 100%
+    width 100vw
+    height 100vh
+    z-index 1
+
+    .celebration
+        z-index 2
+        display none
+        font-size 5em
+
+        &.correct
+            color #51ff51
+
+        &.incorrect
+            color #ec0e0e
 
 .question
-    position absolute
-    top 0
+    display none
     background-color #eee
     border-radius 10px
     width 90%
@@ -46,6 +73,8 @@
 
 .question-blanket
     background-color rgba(100, 100, 100, 0.75);
+    //background-color modal-bg
+    //-webkit-backdrop-filter blur(3px)
     width 100vw
     height 100vh
 
@@ -61,14 +90,13 @@ img.close
         margin 0
         width 100%
 
-        .answer
-            margin 0
-
-            .answer-text
-                display inline-block
-
         .buttons button
             border 0
             background-color #cecece
             padding 10px
             margin 0
+
+@media screen and (min-width: 900px)
+    .question
+        width 70%
+        margin 100px 15%

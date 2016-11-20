@@ -1,15 +1,17 @@
-from flask import Blueprint, render_template, flash, redirect, url_for, g, request
-from werkzeug.security import generate_password_hash, check_password_hash
+from flask import Blueprint, render_template, flash, redirect, url_for
 from flask_login import login_user, login_required, logout_user
+from werkzeug.security import generate_password_hash, check_password_hash
 
-import models
 import forms
+import models
 
 accounts = Blueprint('accounts', __name__, url_prefix='/accounts')
+
 
 @accounts.route('/')
 def index():
     return 'accounts index'
+
 
 @accounts.route('/log_in', methods=['GET', 'POST'])
 def log_in():
@@ -32,6 +34,7 @@ def log_in():
 
     return render_template('simple_form.pug', heading='Log in', form=form)
 
+
 @accounts.route('/sign_up', methods=['GET', 'POST'])
 def sign_up():
     form = forms.SignupForm()
@@ -52,6 +55,7 @@ def sign_up():
             flash('That username or email is already registered')
 
     return render_template('simple_form.pug', heading='Sign up', form=form)
+
 
 @accounts.route('/log_out')
 @login_required

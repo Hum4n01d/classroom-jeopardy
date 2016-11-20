@@ -1,8 +1,5 @@
 extends layout
 
 block content
-    h1 Index page
-
-    p Nothing here yet
-    a(href='/game/1') game 1
-    a(href='/game/1/teacher') game 1 teacher
+    h1 Jeopardy
+    p Welcome! To create a jeopardy game, go to the #[a(href=url_for('game.create')) create page]. To play a game, check out the #[a(href=url_for('game.all')) games list page]

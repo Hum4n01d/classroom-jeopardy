@@ -1,46 +1,32 @@
-mixin render_board(board)
-    .board
-        each category in board.category_set
-            ul.category
-                li.category-title= category.title
-
-                each question in category.question_set
-                    li.board-question
-                        p.value= question.value
-                        p.question-text= question.question
-                        p.answer= question.answer | encode
-
 extends mixins
 
 block content
-    h2= board.title
+    .game
+        +render_board(board)
 
-    .scores
-        p Team 1: #[span.score-one]
-        p Team 2: #[span.score-two]
+        .question-wrap
+            .question-blanket
 
-    +render_board(board)
+            .celebration-wrap
+                p.celebration
 
-    .question-wrap
-        .question-blanket
+            .question
+                img.close(src='/static/images/close.svg')
 
-        .question
-            img.close(src='/static/images/close.svg')
+                .question-question
+                    h2.question-category
+                        span
 
-            .question-question
-                h2.question-category
-                    span
+                    h1.question-text
 
-                h1.question-text
+                .timer
+                    .timer-instructions
+                        p Player 1, press the #[strong Z] key to buzz
+                        p Player 2, press the #[strong M] key to buzz
 
-            .timer
-                .timer-instructions
-                    p Player 1, press the #[strong Z] key to buzz
-                    p Player 2, press the #[strong M] key to buzz
-
-                .timer-content
-                    h2 Player #[span.player-num]
-                    p.timer-text
+                    .timer-content
+                        h2 Player #[span.player-num]
+                        p.timer-text
 
 block scripts
     script(src='https://cdnjs.cloudflare.com/ajax/libs/keypress/2.1.4/keypress.min.js')

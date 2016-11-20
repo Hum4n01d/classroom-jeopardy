@@ -9,9 +9,11 @@ from db_init import db
 db_proxy = Proxy()
 db_proxy.initialize(db)
 
+
 class BaseModel(Model):
     class Meta:
         database = db_proxy
+
 
 # Users
 class User(UserMixin, BaseModel):
@@ -20,14 +22,18 @@ class User(UserMixin, BaseModel):
     password = CharField(max_length=100)
     joined_date = DateTimeField(default=datetime.now)
 
+
 class BaseModel(Model):
     class Meta:
         database = db_proxy
+
 
 class Board(BaseModel):
     title = CharField()
     date_created = DateTimeField(default=datetime.now)
     categories = TextField()  # A csv
+    creator = ForeignKeyField(User)
+
 
 class Category(BaseModel):
     title = CharField()
@@ -36,6 +42,7 @@ class Category(BaseModel):
     def __str__(self):
         return self.title
 
+
 class Question(BaseModel):
     value = IntegerField()
     question = TextField()
@@ -43,6 +50,7 @@ class Question(BaseModel):
     date_created = DateTimeField(default=datetime.now)
     board = ForeignKeyField(Board)
     category = ForeignKeyField(Category)
+
 
 def initialize():
     db_proxy.connect()
@@ -61,9 +69,12 @@ def create_my_game(raw_json=json.load(open('mathandcodegame.json'))):
 
     categories_csv = ','.join(category_titles)
 
+    hum4n01d = User.get(User.username ** 'Hum4n01d')
+
     board = Board.create(
         title=title,
-        categories=categories_csv
+        categories=categories_csv,
+        creator=hum4n01d
     )
 
     for category in raw_game:

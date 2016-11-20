@@ -97,6 +97,27 @@ textarea {
 .main-footer > p {
   margin: 0;
 }
+.profile .joined-date {
+  margin-bottom: 10margin;
+}
+.profile .boards {
+  padding-top: 10margin;
+  border-top: 1px solid #000;
+}
+.profile .boards > h2 {
+  margin-bottom: 10margin;
+}
+.profile > h1 {
+  margin-bottom: 3px;
+}
+.title {
+  margin-bottom: 3px;
+}
+.scores {
+  position: absolute;
+  top: 65px;
+  right: 10px;
+}
 .board {
   display: flex;
   border: 1px solid #999;
@@ -115,6 +136,8 @@ textarea {
 }
 .board .category .category-title {
   background-color: #eee;
+  width: 100%;
+  margin: 0;
 }
 .board .category .board-question {
   cursor: pointer;
@@ -149,16 +172,40 @@ textarea {
   display: none;
 }
 .question-wrap {
+  width: 100%;
   display: none;
+}
+.question-wrap,
+.question {
   z-index: 1;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+.celebration-wrap {
+  display: none;
+  align-items: center;
+  justify-content: center;
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+}
+.celebration-wrap .celebration {
+  z-index: 2;
+  display: none;
+  font-size: 5em;
+}
+.celebration-wrap .celebration.correct {
+  color: #51ff51;
+}
+.celebration-wrap .celebration.incorrect {
+  color: #ec0e0e;
 }
 .question {
-  position: absolute;
-  top: 0;
+  display: none;
   background-color: #eee;
   border-radius: 10px;
   width: 90%;
@@ -210,17 +257,17 @@ img.close {
   margin: 0;
   width: 100%;
 }
-.teacher .question .answer {
-  margin: 0;
-}
-.teacher .question .answer .answer-text {
-  display: inline-block;
-}
 .teacher .question .buttons button {
   border: 0;
   background-color: #cecece;
   padding: 10px;
   margin: 0;
+}
+@media screen and (min-width: 900px) {
+  .question {
+    width: 70%;
+    margin: 100px 15%;
+  }
 }
 @media screen and (min-width: 900px) {
   .main-header,
