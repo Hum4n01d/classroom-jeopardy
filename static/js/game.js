@@ -161,7 +161,7 @@ socket.on('incorrect', function (question) {
 
 
 // Create
-$('.create-board input:not(.value)').val('test');
+// $('.create-board input:not(.value)').val('test');
 $('.create-board form').submit(function (e) {
     e.preventDefault();
 
