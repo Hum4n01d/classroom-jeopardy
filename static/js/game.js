@@ -33,6 +33,7 @@ updateScores();
 function closeQuestion() {
     someone_buzzed = false;
     $('.celebration-wrap').hide();
+    $('.question').fadeOut();
     $('.question-wrap').slideUp(function() {
         $('.question-question').attr('style', '');
         $('.timer').replaceWith($clone.clone());
