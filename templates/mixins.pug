@@ -24,7 +24,13 @@ mixin render_board(board, create=false)
         else
             h2.title= board.title
 
-        p Made by #[a(href=url_for('users.profile', username=board.creator.username))= board.creator.username]
+        if create
+            - var username = user.username
+        else
+            - var username = board.creator.username
+
+
+        p Made by #[a(href=url_for('users.profile', username=username))= username]
 
         if not create
             .scores
