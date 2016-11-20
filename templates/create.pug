@@ -4,35 +4,9 @@ block content
     .create-board
         h1 Create a Jeopardy board!
 
-        .board-wrap
-            input.title(value=board.title)
-            p Made by #[a(href=url_for('users.profile', username=board.creator.username))= board.creator.username]
-
-            .board
-                each category in board.category_set
-                    ul.category
-                        input.category-title(value=category.title)
-
-                        each question in category.question_set
-                            li.board-question
-                                p.value= question.value
-                                input.question-text(value=question.question)
-                                input.answer(value=question.answer)
-
-        .question-wrap
-            .question-blanket
-
-            .celebration-wrap
-                p.celebration
-
-            .question
-                img.close(src='/static/images/close.svg')
-
-                .question-question
-                    h2.question-category
-                        span
-
-                    input.question-text
+        form(method='POST', action='')
+            +render_board(board, create=true)
+            button(type='submit') Save!
 
 block scripts
     script(src='https://cdnjs.cloudflare.com/ajax/libs/keypress/2.1.4/keypress.min.js')

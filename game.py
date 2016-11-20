@@ -1,6 +1,8 @@
-from flask import Blueprint, render_template, abort
-from flask import g
-from flask_login import login_required
+from json import loads
+
+from flask import Blueprint, render_template, abort, g, request
+from flask import redirect
+from flask import url_for
 
 import models
 
@@ -191,6 +193,12 @@ def create():
             }
         ]
     }
+
+    if request.method == 'POST':
+        json_data = loads(request.form['json_data'])
+        board = models.create_my_game(json_data, g.user._get_current_object())
+
+        return redirect(url_for('game.play', board_id=board.id))
 
     return render_template('create.pug', board=board)
 

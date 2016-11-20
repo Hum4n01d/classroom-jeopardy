@@ -1,9 +1,11 @@
+from datetime import datetime
 from os import environ, urandom
 
 from base64 import b64encode
 from json import dumps
 
 from flask import Flask, render_template, g
+from flask_debugtoolbar import DebugToolbarExtension
 from flask_login import LoginManager, current_user
 from flask_socketio import SocketIO, emit
 
@@ -18,7 +20,7 @@ app = Flask(__name__)
 app.secret_key = urandom(24)
 
 socketio = SocketIO(app)
-
+toolbar = DebugToolbarExtension(app)
 
 @socketio.on('connection')
 def connected():
@@ -106,6 +108,26 @@ def index():
 
 if __name__ == '__main__':
     models.initialize()
+
+    try:
+        models.User.create(
+            username='Hum4n01d',
+            password='pbkdf2:sha1:1000$yfvYZTxy$28a15bb8dbdb3a55f51b82b16edcb786355616ae',
+            email='hum4n01d@icloud.com'
+        )
+
+    except models.IntegrityError:
+        pass
+
+    try:
+        models.User.create(
+            username='testq',
+            password='pbkdf2:sha1:1000$ooCswSpt$a607935f180864677f761683f7bce4b1c4ca2c31',
+            email='test@example.com'
+        )
+
+    except models.IntegrityError:
+        pass
 
     PORT = int(environ.get('PORT', 3000))
     HOST = '0.0.0.0'

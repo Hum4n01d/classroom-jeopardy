@@ -31,8 +31,8 @@ class BaseModel(Model):
 class Board(BaseModel):
     title = CharField()
     date_created = DateTimeField(default=datetime.now)
-    categories = TextField()  # A csv
     creator = ForeignKeyField(User)
+    json_data = TextField()
 
 
 class Category(BaseModel):
@@ -58,7 +58,7 @@ def initialize():
     db_proxy.close()
 
 
-def create_my_game(raw_json=json.load(open('mathandcodegame.json'))):
+def create_my_game(raw_json=json.load(open('mathandcodegame.json')), user=User.get(User.username ** 'Hum4n01d')):
     db_proxy.connect()
 
     raw_game = raw_json['game']
@@ -69,12 +69,11 @@ def create_my_game(raw_json=json.load(open('mathandcodegame.json'))):
 
     categories_csv = ','.join(category_titles)
 
-    hum4n01d = User.get(User.username ** 'Hum4n01d')
-
     board = Board.create(
         title=title,
         categories=categories_csv,
-        creator=hum4n01d
+        creator=user,
+        json_data=raw_json
     )
 
     for category in raw_game:
@@ -92,3 +91,5 @@ def create_my_game(raw_json=json.load(open('mathandcodegame.json'))):
                 board=board,
                 category=category_db
             )
+
+    return board

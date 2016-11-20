@@ -167,6 +167,21 @@ textarea {
 .board .category .category-title:last-child {
   border: none;
 }
+.create-board button[type="submit"] {
+  margin: 10px 0;
+}
+.create-board .board input {
+  border: 0;
+}
+.create-board .board .category > .board-question {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.create-board .board .category > .board-question input {
+  width: 100%;
+  padding: 15px;
+}
 .teacher .buttons,
 .teacher .question {
   display: none;

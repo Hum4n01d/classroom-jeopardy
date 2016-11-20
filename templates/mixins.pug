@@ -17,22 +17,36 @@ mixin render_form(form, action='Submit')
 
         button(type='submit')= action
 
-mixin render_board(board)
+mixin render_board(board, create=false)
     .board-wrap
-        h2.title= board.title
+        if create
+            input.title(placeholder=board.title, name='board_title')
+        else
+            h2.title= board.title
+
         p Made by #[a(href=url_for('users.profile', username=board.creator.username))= board.creator.username]
 
-        .scores
-            p Player 1: #[span.score-one]
-            p Player 2: #[span.score-two]
+        if not create
+            .scores
+                p Player 1: #[span.score-one]
+                p Player 2: #[span.score-two]
 
         .board
             each category in board.category_set
                 ul.category
-                    li.category-title= category.title
+                    if create
+                        input.category-title(placeholder=category.title, name='category_title')
+                    else
+                        li.category-title= category.title
 
                     each question in category.question_set
                         li.board-question
-                            p.value= question.value
-                            p.question-text= question.question
-                            p.answer= question.answer | encode
+                            if create
+                                input.value(placeholder='Value', value=question.value)
+                                input.create-question(placeholder='Question text')
+                                input.create-answer(placeholder='Answer text')
+
+                            else
+                                p.value= question.value
+                                p.question-text= question.question
+                                p.answer= question.answer | encode

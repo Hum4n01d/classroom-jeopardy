@@ -17,24 +17,6 @@ function updateScores() {
 
 updateScores();
 
-function renderQuestion(question) {
-    $('.close').fadeIn();
-
-    $('.question-wrap').slideDown();
-    $('.question').fadeIn();
-
-    var $question_el = $('.question .question-text');
-
-    $('.question .question-category').text(question.category)
-
-    if ($question_el.is('input')) {
-        console.log('its an input. val: '+question.question);
-        $question_el.val(question.question);
-    } else {
-        $question_el.text(question.question);
-    }
-}
-
 function closeQuestion() {
     someone_buzzed = false;
     $('.question-wrap').slideUp(function() {
@@ -89,7 +71,7 @@ function answer(player_num) {
 }
 
 
-$('.game .board-question').click(function() {
+$('.game .boaruestion').click(function() {
     if ($(this).hasClass('disabled')) return false;
 
     var value = $(this).children('.value').text();
@@ -105,7 +87,16 @@ $('.game .board-question').click(function() {
         category: category
     };
 
-    renderQuestion(question);
+    $('.close').fadeIn();
+
+    $('.question-wrap').slideDown();
+    $('.question').fadeIn();
+
+    var $questionEl = $('.question .question-text');
+
+    $('.question .question-category').text(question.category)
+
+    $questionEl.text(question.question);
 });
 
 $('.question-blanket, .close').click(function() {
@@ -170,13 +161,58 @@ socket.on('incorrect', function (question) {
 
 
 // Create
-$('.create-board .board-question').click(function () {
-    // document.write('test')
-    question = {
-        value: $(this).children('.value').val(),
-        question: 'Question text',
-        answer: 'Question answer',
-        category: $(this).siblings('.category-title').val()
+$('.create-board input:not(.value)').val('test');
+$('.create-board form').submit(function (e) {
+    e.preventDefault();
+
+    var $create_category = $('.create-board .category');
+
+    var title = $('.title').val();
+
+    var new_board = {
+        title: title,
+        game: [
+
+        ]
     };
-    renderQuestion(question);
+
+    $create_category.each(function () {
+        var category_title = $(this).children('.category-title').val();
+
+        var category_obj = {
+            title: category_title,
+            questions: [
+
+            ]
+        };
+
+        $(this).children('.board-question').each(function () {
+            var value = $(this).children('.value').val();
+            var question_text = $(this).children('.create-question').val();
+            var answer = $(this).children('.create-answer').val();
+
+            var question_obj = {
+                value: value,
+                question: question_text,
+                answer: answer
+            };
+
+            category_obj.questions.push(question_obj);
+        });
+
+        new_board.game.push(category_obj);
+    });
+
+    $create_category.promise().then(function () {
+        var $new_form = $('<form>').attr('method', 'POST').addClass('temp_form');
+
+        var $input = $('<input>').attr('name', 'json_data').val(JSON.stringify(new_board));
+
+        $new_form.append($input);
+
+        $('body').append($new_form)
+        $new_form[0].submit();
+
+        $('.temp_form').remove();
+    });
 });
