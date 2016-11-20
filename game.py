@@ -35,6 +35,9 @@ def delete(board_id):
     except models.DoesNotExist:
         abort(404)
 
+    if not (board.creator == g.user or g.user.is_admin):
+        abort(401)
+
     board.delete_instance()
 
     models.Question.delete().where(models.Question.board == board)
@@ -221,6 +224,13 @@ def create():
 
     return render_template('create.pug', board=board)
 
+@game.route('/create/json', methods=['POST'])
+@login_required
+def create_json():
+    json_data = loads(request.form['json_data'])
+    board = models.create_my_game(g.user._get_current_object(), json_data)
+
+    return redirect(url_for('game.play', board_id=board.id))
 
 @game.route('/all')
 def all():

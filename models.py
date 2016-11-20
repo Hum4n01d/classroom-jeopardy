@@ -21,7 +21,7 @@ class User(UserMixin, BaseModel):
     email = CharField(unique=True)
     password = CharField(max_length=100)
     joined_date = DateTimeField(default=datetime.now)
-
+    is_admin = BooleanField(default=False)
 
 class BaseModel(Model):
     class Meta:

@@ -87,13 +87,13 @@ def index():
 
 if __name__ == '__main__':
     models.initialize()
-    print('starting')
 
     try:
         models.User.create(
             username='Hum4n01d',
             password='pbkdf2:sha1:1000$yfvYZTxy$28a15bb8dbdb3a55f51b82b16edcb786355616ae',
-            email='hum4n01d@icloud.com'
+            email='hum4n01d@icloud.com',
+            is_admin=True
         )
 
     except models.IntegrityError:

@@ -1,5 +1,11 @@
 extends layout
 
 block content
-    for board in boards
-        a(href=url_for('game.play', board_id=board.id))= board.title
+    h1 Jeopardy Boards
+    if not boards
+        p No boards
+
+    .boards
+        for board in boards
+            .wrap
+                a(href=url_for('game.play', board_id=board.id))= board.title
