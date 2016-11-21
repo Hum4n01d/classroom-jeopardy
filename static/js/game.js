@@ -40,7 +40,7 @@ function closeQuestion() {
 
     $('.celebration-wrap').hide();
     $('.question').fadeOut();
-    $('.question-wrap').slideUp(function() {
+    $('.question-wrap').slideUp(function () {
         $('.question-question').attr('style', '');
         $('.timer').replaceWith($clone.clone());
         someone_buzzed = false;
@@ -50,12 +50,12 @@ function closeQuestion() {
 function start_timer($timer) {
     var current_time = default_time;
 
-    for (i = default_time+1; i > 0; i--) {
+    for (i = default_time + 1; i > 0; i--) {
         $timer.text(current_time);
 
         $timer.animate({
             opacity: 1
-        }, 1000, function() {
+        }, 1000, function () {
             $timer.css({
                 opacity: 0
             });
@@ -90,7 +90,7 @@ function answer(player_num) {
     start_timer($('.timer-text'));
 }
 
-$('.game .board-question').click(function() {
+$('.game .board-question').click(function () {
     if ($(this).hasClass('disabled')) return false;
 
 
@@ -124,17 +124,17 @@ $('.game .board-question').click(function() {
     $questionEl.text(question.question);
 });
 
-$('.question-blanket, .close').click(function() {
+$('.question-blanket, .close').click(function () {
     if (!someone_buzzed) closeQuestion();
 });
 
 // Detect keypresses. For some reason jQuery didn't work in safari
 var listener = new window.keypress.Listener();
 
-listener.simple_combo("z", function() {
+listener.simple_combo("z", function () {
     if (!someone_buzzed) answer(1)
 });
-listener.simple_combo("m", function() {
+listener.simple_combo("m", function () {
     if (!someone_buzzed) answer(2)
 });
 
@@ -160,7 +160,7 @@ function handle_answer(question, correct) {
     } else if (correct) {
         result = 'Correct!';
         $celebration.addClass('correct');
-    }  else {
+    } else {
         result = 'Incorrect';
         $celebration.addClass('incorrect');
     }
@@ -210,9 +210,7 @@ $('.create-board form').submit(function (e) {
 
     var new_board = {
         title: title,
-        game: [
-
-        ]
+        game: []
     };
 
     $create_category.each(function () {
@@ -220,9 +218,7 @@ $('.create-board form').submit(function (e) {
 
         var category_obj = {
             title: category_title,
-            questions: [
-
-            ]
+            questions: []
         };
 
         $(this).children('.board-question').each(function () {
