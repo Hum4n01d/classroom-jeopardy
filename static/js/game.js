@@ -154,7 +154,7 @@ function handle_answer(question, correct) {
         else if (player_buzzed == 2) playerTwoScore += value;
     }
 
-    $celebration.removeClass('correct incorrect');
+    $celebration.removeClass('correct incorrect no-answer');
 
     if (no_answer) {
         result = 'No answer';
@@ -172,6 +172,8 @@ function handle_answer(question, correct) {
     $('.question').fadeOut();
 
     $celebration.text(result).fadeIn();
+
+    $celebration.css('font-size', '5em');
 
     $celebration.animate({
         fontSize: '6em'
