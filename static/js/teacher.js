@@ -21,7 +21,8 @@ socket.on('question', function (new_question) {
 });
 
 socket.on('close_question', function () {
-    toggle();
+    $('.question').slideUp();
+    $('.no-messages').fadeIn();
 });
 
 $('.correct').click(function(event) {

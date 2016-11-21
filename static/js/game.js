@@ -1,6 +1,7 @@
 // Buzzing
 var default_time = 5;
 // var default_time = 0;
+var player_buzzed;
 var someone_buzzed = false;
 var you_can_buzz = false;
 var $clone = $('.timer').clone();
@@ -75,8 +76,6 @@ function start_timer($timer) {
 
 function answer(player_num) {
     if (!you_can_buzz) return false;
-
-    $elForDisabling.addClass('disabled');
 
     player_buzzed = player_num;
     someone_buzzed = true;
@@ -181,6 +180,7 @@ function handle_answer(question, correct) {
 
         setTimeout(function () {
             closeQuestion();
+            $elForDisabling.addClass('disabled');
 
             setTimeout(function () {
                 updateScores();
