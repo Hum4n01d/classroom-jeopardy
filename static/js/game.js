@@ -90,54 +90,6 @@ function answer(player_num) {
     start_timer($('.timer-text'));
 }
 
-$('.game .board-question').click(function () {
-    if ($(this).hasClass('disabled')) return false;
-
-
-    $elForDisabling = $(this)
-
-    var value = $(this).children('.value').text();
-    var question_text = $(this).children('.question-text').text();
-    var answer = atob($(this).children('.answer').text());
-    var category = $(this).siblings('.category-title').text();
-
-
-    question = {
-        value: value,
-        question: question_text,
-        answer: answer,
-        category: category
-    };
-
-    $('.close').fadeIn();
-
-    $('.question-wrap').slideDown(function () {
-        you_can_buzz = true;
-        socket.emit('new question', question);
-    });
-    $('.question').fadeIn();
-
-    $questionEl = $('.question .question-text');
-
-    $('.question .question-category').text(question.category)
-
-    $questionEl.text(question.question);
-});
-
-$('.question-blanket, .close').click(function () {
-    if (!someone_buzzed) closeQuestion();
-});
-
-// Detect keypresses. For some reason jQuery didn't work in safari
-var listener = new window.keypress.Listener();
-
-listener.simple_combo("z", function () {
-    if (!someone_buzzed) answer(1)
-});
-listener.simple_combo("m", function () {
-    if (!someone_buzzed) answer(2)
-});
-
 function handle_answer(question, correct) {
     var value;
     var result;
@@ -188,6 +140,54 @@ function handle_answer(question, correct) {
         }, 1000);
     });
 }
+
+$('.game .board-question').click(function () {
+    if ($(this).hasClass('disabled')) return false;
+
+
+    $elForDisabling = $(this)
+
+    var value = $(this).children('.value').text();
+    var question_text = $(this).children('.question-text').text();
+    var answer = atob($(this).children('.answer').text());
+    var category = $(this).siblings('.category-title').text();
+
+
+    question = {
+        value: value,
+        question: question_text,
+        answer: answer,
+        category: category
+    };
+
+    $('.close').fadeIn();
+
+    $('.question-wrap').slideDown(function () {
+        you_can_buzz = true;
+        socket.emit('new question', question);
+    });
+    $('.question').fadeIn();
+
+    $questionEl = $('.question .question-text');
+
+    $('.question .question-category').text(question.category)
+
+    $questionEl.text(question.question);
+});
+
+$('.question-blanket, .close').click(function () {
+    if (!someone_buzzed) closeQuestion();
+});
+
+// Detect keypresses. For some reason jQuery didn't work in safari
+var listener = new window.keypress.Listener();
+
+listener.simple_combo("z", function () {
+    if (!someone_buzzed) answer(1)
+});
+listener.simple_combo("m", function () {
+    if (!someone_buzzed) answer(2)
+});
 
 // Once teacher answers
 socket.on('correct', function (question) {
