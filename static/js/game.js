@@ -179,14 +179,11 @@ $('.question-blanket, .close').click(function () {
     if (!someone_buzzed) closeQuestion();
 });
 
-// Detect keypresses. For some reason jQuery didn't work in safari
-var listener = new window.keypress.Listener();
-
-listener.simple_combo("z", function () {
-    if (!someone_buzzed) answer(1)
-});
-listener.simple_combo("m", function () {
-    if (!someone_buzzed) answer(2)
+$(document).keydown(function (e) {
+    if (you_can_buzz) {
+        if (e.which == 90) answer(1);
+        if (e.which == 77) answer(2);
+    }
 });
 
 // Once teacher answers
@@ -198,56 +195,4 @@ socket.on('incorrect', function (question) {
 });
 socket.on('no_answer', function (question) {
     handle_answer(question, 'no_answer');
-});
-
-// Create
-$('.create-board form').submit(function (e) {
-    e.preventDefault();
-
-    var $create_category = $('.create-board .category');
-
-    var title = $('.title').val();
-
-    var new_board = {
-        title: title,
-        game: []
-    };
-
-    $create_category.each(function () {
-        var category_title = $(this).children('.category-title').val();
-
-        var category_obj = {
-            title: category_title,
-            questions: []
-        };
-
-        $(this).children('.board-question').each(function () {
-            var value = $(this).children('.value').val();
-            var question_text = $(this).children('.create-question').val();
-            var answer = $(this).children('.create-answer').val();
-
-            var question_obj = {
-                value: value,
-                question: question_text,
-                answer: answer
-            };
-
-            category_obj.questions.push(question_obj);
-        });
-
-        new_board.game.push(category_obj);
-    });
-
-    $create_category.promise().then(function () {
-        var $new_form = $('<form>').attr('method', 'POST').addClass('temp_form');
-
-        var $input = $('<input>').attr('name', 'json_data').val(JSON.stringify(new_board));
-
-        $new_form.append($input);
-
-        $('body').append($new_form)
-        $new_form[0].submit();
-
-        $('.temp_form').remove();
-    });
 });
