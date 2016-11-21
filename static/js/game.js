@@ -144,9 +144,7 @@ function handle_answer(question, correct) {
     var $celebration = $('.celebration');
     var no_answer = correct == 'no_answer';
 
-    if (no_answer) {
-
-    } else {
+    if (!no_answer) {
         value = parseInt(question.value);
 
         if (!correct) value = 0 - value;
