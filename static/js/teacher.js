@@ -20,6 +20,10 @@ socket.on('question', function (new_question) {
     update(question);
 });
 
+socket.on('close_question', function () {
+    toggle();
+});
+
 $('.correct').click(function(event) {
     socket.emit('correct', question);
 
@@ -28,5 +32,10 @@ $('.correct').click(function(event) {
 
 $('.incorrect').click(function(event) {
     socket.emit('incorrect', question);
+    toggle();
+});
+
+$('.no-answer').click(function(event) {
+    socket.emit('no_answer', question);
     toggle();
 });

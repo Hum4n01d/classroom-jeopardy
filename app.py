@@ -30,6 +30,13 @@ def correct(question):
 def incorrect(question):
     emit('incorrect', question, broadcast=True)
 
+@socketio.on('no_answer')
+def no_answer(question):
+    emit('no_answer', question, broadcast=True)
+
+@socketio.on('close_question')
+def close_question():
+    emit('close_question', broadcast=True)
 
 app.jinja_env.add_extension('pypugjs.ext.jinja.PyPugJSExtension')
 

@@ -2,6 +2,7 @@
 var default_time = 5;
 // var default_time = 0;
 var someone_buzzed = false;
+var you_can_buzz = false;
 var $clone = $('.timer').clone();
 
 var playerOneScore = 0;
@@ -32,6 +33,10 @@ updateScores();
 
 function closeQuestion() {
     someone_buzzed = false;
+    you_can_buzz = false;
+
+    socket.emit('close_question');
+
     $('.celebration-wrap').hide();
     $('.question').fadeOut();
     $('.question-wrap').slideUp(function() {
@@ -69,13 +74,14 @@ function start_timer($timer) {
 }
 
 function answer(player_num) {
+    if (!you_can_buzz) return false;
+
     $elForDisabling.addClass('disabled');
 
     player_buzzed = player_num;
     someone_buzzed = true;
-    $('.player-num').text(player_num);
 
-    socket.emit('new question', question);
+    $('.player-num').text(player_num);
 
     $('.close').fadeOut();
 
@@ -87,6 +93,7 @@ function answer(player_num) {
 
 $('.game .board-question').click(function() {
     if ($(this).hasClass('disabled')) return false;
+
 
     $elForDisabling = $(this)
 
@@ -105,7 +112,10 @@ $('.game .board-question').click(function() {
 
     $('.close').fadeIn();
 
-    $('.question-wrap').slideDown();
+    $('.question-wrap').slideDown(function () {
+        you_can_buzz = true;
+        socket.emit('new question', question);
+    });
     $('.question').fadeIn();
 
     $questionEl = $('.question .question-text');
@@ -130,19 +140,27 @@ listener.simple_combo("m", function() {
 });
 
 function handle_answer(question, correct) {
-    value = parseInt(question.value);
-
-    if (!correct) value = 0 - value;
-
-    if (player_buzzed == 1) playerOneScore += value;
-    else if (player_buzzed == 2) playerTwoScore += value;
-
-
+    var value;
     var result;
     var $celebration = $('.celebration');
+    var no_answer = correct == 'no_answer';
+
+    if (no_answer) {
+
+    } else {
+        value = parseInt(question.value);
+
+        if (!correct) value = 0 - value;
+        if (player_buzzed == 1) playerOneScore += value;
+        else if (player_buzzed == 2) playerTwoScore += value;
+    }
+
     $celebration.removeClass('correct incorrect');
 
-    if (correct) {
+    if (no_answer) {
+        result = 'No answer';
+        $celebration.addClass('no-answer');
+    } else if (correct) {
         result = 'Correct!';
         $celebration.addClass('correct');
     }  else {
@@ -177,6 +195,9 @@ socket.on('correct', function (question) {
 });
 socket.on('incorrect', function (question) {
     handle_answer(question, false);
+});
+socket.on('no_answer', function (question) {
+    handle_answer(question, 'no_answer');
 });
 
 // Create

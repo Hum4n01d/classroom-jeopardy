@@ -33,6 +33,9 @@ modal-bg = rgba(val, val, val, 0.5)
 
         &.incorrect
             color #ec0e0e
+            
+        &.no-answer
+            color #fff
 
 .question
     display none
@@ -72,9 +75,8 @@ modal-bg = rgba(val, val, val, 0.5)
             margin-bottom 10px
 
 .question-blanket
-    background-color rgba(100, 100, 100, 0.75);
-    //background-color modal-bg
-    //-webkit-backdrop-filter blur(3px)
+    background-color rgba(100, 100, 100, 0.75)
+    -webkit-backdrop-filter blur(3px)
     width 100vw
     height 100vh
 
