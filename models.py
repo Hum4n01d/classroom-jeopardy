@@ -58,12 +58,12 @@ def initialize():
     db_proxy.close()
 
 
-def create_my_game(user, raw_json=json.load(open('mathandcodegame.json'))):
+def create_my_game(json_data, user):
     db_proxy.connect()
 
-    raw_game = raw_json['game']
+    raw_game = json_data['game']
 
-    title = raw_json['title']
+    title = json_data['title']
 
     category_titles = [category['title'] for category in raw_game]
 
@@ -73,7 +73,7 @@ def create_my_game(user, raw_json=json.load(open('mathandcodegame.json'))):
         title=title,
         categories=categories_csv,
         creator=user,
-        json_data=raw_json
+        json_data=json_data
     )
 
     for category in raw_game:

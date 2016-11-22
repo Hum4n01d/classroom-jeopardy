@@ -1,6 +1,6 @@
-from json import loads
+from json import loads, dumps
 
-from flask import Blueprint, render_template, abort, g, request
+from flask import Blueprint, render_template, abort, g, request, jsonify
 from flask import flash
 from flask import redirect
 from flask import url_for
@@ -27,25 +27,18 @@ def play(board_id):
 
     return render_template('board.pug', board=board)
 
-@game.route('/<board_id>/delete')
+
+@game.route('/<board_id>/json')
 @login_required
-def delete(board_id):
+def get_json(board_id):
     try:
         board = models.Board.get(models.Board.id == board_id)
     except models.DoesNotExist:
         abort(404)
 
-    if not (board.creator == g.user or g.user.is_admin):
-        abort(401)
+    json_data = loads(board.json_data)
 
-    models.Question.delete().where(models.Question.board == board)
-    models.Category.delete().where(models.Category.board == board)
-
-    board.delete_instance()
-
-    flash('Board deleted')
-
-    return redirect(url_for('index'))
+    return jsonify(json_data)
 
 
 @game.route('/<board_id>/teacher')
@@ -217,17 +210,47 @@ def create():
     }
 
     if request.method == 'POST':
-        json_data = loads(request.form['json_data'])
-        board = models.create_my_game(g.user._get_current_object(), json_data)
+        try:
+            json_data = loads(request.form['json_data'])
+
+            board = models.create_my_game(
+                user=g.user._get_current_object(),
+                json_data=json_data
+            )
+        except:
+            abort(400)
 
         return redirect(url_for('game.play', board_id=board.id))
 
     return render_template('create.pug', board=board)
 
+
+@game.route('/<board_id>/delete')
+@login_required
+def delete(board_id):
+    try:
+        board = models.Board.get(models.Board.id == board_id)
+    except models.DoesNotExist:
+        abort(404)
+
+    if not (board.creator == g.user or g.user.is_admin):
+        abort(401)
+
+    models.Question.delete().where(models.Question.board == board)
+    models.Category.delete().where(models.Category.board == board)
+
+    board.delete_instance()
+
+    flash('Board deleted')
+
+    return redirect(url_for('index'))
+
+
 @game.route('/create/json')
 @login_required
 def create_json():
     return render_template('create_json.pug')
+
 
 @game.route('/all')
 def all():

@@ -2,6 +2,7 @@ $(document).ready(function () {
     var data = localStorage.getItem('json_data');
 
     if (data) {
+        $('.flashes').append($('<li>').text('Using saved game data'))
         loadJSON(JSON.parse(data));
     }
 });
@@ -86,13 +87,27 @@ $('.create-board form').submit(function (e) {
     $new_form.append($input);
 
     $('body').append($new_form);
+
+    resetState();
+
     $new_form[0].submit();
 
     $('.temp_form').remove();
 });
 
-// Save state every 5 seconds
-setInterval(function () {
+function saveState() {
     localStorage.setItem('json_data', generateGameJSON());
-}, 5000);
+}
 
+function resetState() {
+    $('input:not(.value)').val('');
+    saveState();
+}
+$('.clear-board').click(function () {
+    resetState();
+});
+
+// Save on key down
+$(document).keydown(function () {
+    saveState();
+});

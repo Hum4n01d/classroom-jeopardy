@@ -2,7 +2,14 @@ extends mixins
 
 block content
     .create-board
-        h1 Create a Jeopardy board!
+        .title-bar
+            h1 Create a Jeopardy board!
+
+            .actions
+                button
+                    a(href=url_for('game.create_json')) Create from JSON
+
+                button.clear-board Clear
 
         form(method='POST', action='')
             +render_board(board, create=true)

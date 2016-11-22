@@ -10,10 +10,10 @@ html
     body
         messages = get_flashed_messages(with_categories=True)
 
-        if messages
-            ul.flashes
-                each category, message in messages
-                    li(class=category)= message
+        ul.flashes
+            each category, message in messages
+                li(class=category)= message
+
         header
             .main-header
                 a(href=url_for('index')) #[h1= name]
