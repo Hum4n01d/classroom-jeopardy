@@ -1,7 +1,7 @@
 $(document).ready(function () {
     var data = localStorage.getItem('json_data');
 
-    if (data) {
+    if (data != '') {
         $('.flashes').append($('<li>').text('Using saved game data'))
         loadJSON(JSON.parse(data));
     }
@@ -87,8 +87,6 @@ $('.create-board form').submit(function (e) {
     $new_form.append($input);
 
     $('body').append($new_form);
-
-    resetState();
 
     $new_form[0].submit();
 
