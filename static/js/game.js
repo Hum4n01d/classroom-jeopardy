@@ -79,6 +79,7 @@ function answer(player_num) {
 
     player_buzzed = player_num;
     someone_buzzed = true;
+    you_can_buzz = false;
 
     $('.player-num').text(player_num);
 
@@ -145,7 +146,7 @@ $('.game .board-question').click(function () {
     if ($(this).hasClass('disabled')) return false;
 
 
-    $elForDisabling = $(this)
+    $elForDisabling = $(this);
 
     var value = $(this).children('.value').text();
     var question_text = $(this).children('.question-text').text();
