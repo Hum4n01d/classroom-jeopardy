@@ -23,7 +23,9 @@ def play(board_id):
     board.category_set = categories
 
     for category in categories:
-        category.question_set = list(category.question_set)
+        questions = models.Question.select().where(models.Question.category == category).order_by(models.Question.value)
+
+        category.question_set = list(questions)
 
     return render_template('board.pug', board=board)
 

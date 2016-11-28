@@ -51,6 +51,9 @@ class Question(BaseModel):
     board = ForeignKeyField(Board)
     category = ForeignKeyField(Category)
 
+    class Meta:
+        order_by = ('-value',)
+
 
 def initialize():
     db_proxy.connect()
