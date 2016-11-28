@@ -23,7 +23,7 @@ def play(board_id):
     board.category_set = categories
 
     for category in categories:
-        questions = models.Question.select().where(models.Question.category == category).order_by(models.Question.value)
+        questions = category.question_set.order_by(models.Question.value)
 
         category.question_set = list(questions)
 
