@@ -63,21 +63,16 @@ function startTimer(seconds) {
     var secondsLeft = seconds;
     var $timer = $('.game-flash-text');
 
-    gameFlash(secondsLeft, function () {
+    var timer = setInterval(function () {
         secondsLeft--;
-    });
-    gameFlash(secondsLeft, function () {
-        secondsLeft--;
-    });
-    gameFlash(secondsLeft, function () {
-        secondsLeft--;
-    });
-    gameFlash(secondsLeft, function () {
-        secondsLeft--;
-    });
-    gameFlash(secondsLeft, function () {
-        secondsLeft--;
-    });
+
+        gameFlash(secondsLeft);
+
+        if (secondsLeft == -1) {
+            clearInterval(timer);
+            gameFlash("Time's Up!");
+        }
+    }, 1000);
 }
 
 function getQuestionFromEl($el) {
@@ -95,29 +90,23 @@ function getQuestionFromEl($el) {
     return question
 }
 
-function gameFlash(text, callback) {
+function gameFlash(text) {
     var $gameFlashText = $('.game-flash-text');
-    var timing = 500;
-    var initialFontSize = 4;
-    var bigFontSize = initialFontSize + 2;
 
-    $gameFlashText.text(text);
-    $('.game-flash').css('display', 'flex');
+    $gameFlashText.parent().toggleClass('show');
+
+    $gameFlashText.text(text).show();
 
     $gameFlashText.animate({
-        opacity: 1,
-        fontSize: bigFontSize+'em'
-    }, timing, function () {
-        callback();
-        setTimeout(function () {
-            $gameFlashText.animate({
-                opacity: 0,
-                fontSize: initialFontSize+'em'
-            }, timing, function () {
-                $('.game-flash').hide();
-                callback();
-            });
-        }, timing);
+        fontSize: '4em',
+        opacity: 1
+    }, 500, function () {
+        $gameFlashText.animate({
+            fontSize: '3em',
+            opacity: 0
+        }, 500, function () {
+            $gameFlashText.parent().toggleClass('show');
+        });
     });
 }
 
