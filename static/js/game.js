@@ -63,6 +63,8 @@ function startTimer(seconds) {
     var secondsLeft = seconds;
     var $timer = $('.game-flash-text');
 
+    gameFlash(secondsLeft);
+
     var timer = setInterval(function () {
         secondsLeft--;
 
@@ -70,7 +72,7 @@ function startTimer(seconds) {
 
         if (secondsLeft == -1) {
             clearInterval(timer);
-            gameFlash("Time's Up!");
+            gameFlash("Time's Up!", hide=false);
         }
     }, 1000);
 }
@@ -90,10 +92,11 @@ function getQuestionFromEl($el) {
     return question
 }
 
-function gameFlash(text) {
+function gameFlash(text, hide) {
     var $gameFlashText = $('.game-flash-text');
 
-    $gameFlashText.parent().toggleClass('show');
+    $gameFlashText.parent().toggleClass('show show-timer');
+
 
     $gameFlashText.text(text).show();
 
@@ -101,12 +104,14 @@ function gameFlash(text) {
         fontSize: '4em',
         opacity: 1
     }, 500, function () {
-        $gameFlashText.animate({
-            fontSize: '3em',
-            opacity: 0
-        }, 500, function () {
-            $gameFlashText.parent().toggleClass('show');
-        });
+        if (hide != undefined) {
+            $gameFlashText.animate({
+                fontSize: '3em',
+                opacity: 0
+            }, 500, function () {
+                $gameFlashText.parent().toggleClass('show show-timer');
+            });
+        }
     });
 }
 
