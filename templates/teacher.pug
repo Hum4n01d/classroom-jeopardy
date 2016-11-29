@@ -14,9 +14,12 @@ block content
             h2.answer
 
             .buttons
-                button(type="button", class="correct") Correct
-                button(type="button", class="incorrect") Incorrect
-                button(type="button", class="no-answer") No Answer
+                button(type="button", class="allow-buzzing") Allow Buzzing
+
+                .after-buzz
+                    button(type="button", class="correct") Correct
+                    button(type="button", class="incorrect") Incorrect
+                    button(type="button", class="no-answer") No Answer
 
 block scripts
     script(src='/static/js/teacher.js')

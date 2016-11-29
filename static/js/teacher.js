@@ -5,6 +5,9 @@ function update(new_question) {
     $('.answer').text(new_question.answer);
     $('.buttons').show();
 
+    $('.allow-buzzing').show()
+    $('.after-buzz').hide();
+
     $('.question').slideDown();
     $('.no-messages').hide();
 }
@@ -20,7 +23,7 @@ socket.on('question', function (new_question) {
     update(question);
 });
 
-socket.on('close_question', function () {
+socket.on('close question', function () {
     $('.question').slideUp();
     $('.no-messages').fadeIn();
 });
@@ -37,6 +40,14 @@ $('.incorrect').click(function(event) {
 });
 
 $('.no-answer').click(function(event) {
-    socket.emit('no_answer', question);
+    socket.emit('no answer', question);
     toggle();
+});
+
+$('.allow-buzzing').click(function () {
+    socket.emit('start buzzing', question);
+
+    $('.allow-buzzing').fadeOut(function () {
+        $('.after-buzz').fadeIn();
+    });
 });

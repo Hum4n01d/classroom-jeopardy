@@ -7,7 +7,6 @@ modal-bg = rgba(val, val, val, 0.5)
 
 .question-wrap,
 .question
-    z-index 1
     position fixed
     top 0
     left 0
@@ -56,6 +55,7 @@ modal-bg = rgba(val, val, val, 0.5)
         .timer-instructions
             display flex
             justify-content space-around
+            margin-top 20px
 
             p
                 margin 0
@@ -69,10 +69,8 @@ modal-bg = rgba(val, val, val, 0.5)
             text-align center
             content ':'
 
-        .timer-text
-            font-size 5em
-            text-align center
-            margin-bottom 10px
+        .timer-padding
+            padding 60px
 
 .question-blanket
     background-color rgba(100, 100, 100, 0.75)
@@ -92,11 +90,16 @@ img.close
         margin 0
         width 100%
 
-        .buttons button
-            border 0
-            background-color #cecece
-            padding 10px
-            margin 10px 0 0 0
+        .buttons
+            .after-buzz
+                display none
+
+            button
+                border 0
+                background-color #cecece
+                padding 10px
+                margin 10px 0 0 0
+
 
 @media screen and (min-width: 900px)
     .question

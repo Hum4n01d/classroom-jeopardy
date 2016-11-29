@@ -17,9 +17,11 @@ app.secret_key = urandom(24)
 
 socketio = SocketIO(app)
 
+
 @socketio.on('new question')
 def new_question(question):
     emit('question', dumps(question), broadcast=True)
+
 
 @socketio.on('correct')
 def correct(question):
@@ -30,13 +32,20 @@ def correct(question):
 def incorrect(question):
     emit('incorrect', question, broadcast=True)
 
-@socketio.on('no_answer')
-def no_answer(question):
-    emit('no_answer', question, broadcast=True)
 
-@socketio.on('close_question')
+@socketio.on('no answer')
+def no_answer(question):
+    emit('no answer', question, broadcast=True)
+
+
+@socketio.on('close question')
 def close_question():
-    emit('close_question', broadcast=True)
+    emit('close question', broadcast=True)
+
+@socketio.on('start buzzing')
+def start_buzzing(question):
+    emit('start buzzing', question, broadcast=True)
+
 
 app.jinja_env.add_extension('pypugjs.ext.jinja.PyPugJSExtension')
 
@@ -90,6 +99,7 @@ def after_request(response):
 @app.route('/')
 def index():
     return render_template('index.pug')
+
 
 @app.route('/presidents_game')
 def presidents_game():
