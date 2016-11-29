@@ -1,4 +1,4 @@
-var default_time = 1;
+var default_time = 5;
 var player_who_buzzed;
 var someone_buzzed = false;
 var you_can_buzz = false;
