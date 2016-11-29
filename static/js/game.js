@@ -1,7 +1,9 @@
-var default_time = 5;
+var default_time = 1;
 var player_who_buzzed;
 var someone_buzzed = false;
 var you_can_buzz = false;
+
+var $currentQuestionEl;
 var $timerClone = $('.timer').clone();
 
 var playerOneScore = 0;
@@ -24,13 +26,21 @@ function updateScores() {
     }
 }
 
-function closeQuestionModal() {
-    $('.question').fadeOut();
-    $('.question-wrap').slideUp(function () {
-        $('.timer').replaceWith($timerClone.clone());
-    });
+function closeQuestionModal(delay, callback) {
+    if (delay == undefined) delay = 0;
 
-    socket.emit('close question');
+    someone_buzzed = false;
+
+    $('.question').fadeOut();
+
+    setTimeout(function () {
+        $('.question-wrap').slideUp(function () {
+            $('.timer').replaceWith($timerClone.clone());
+
+            if (typeof(callback) == "function") callback();
+            socket.emit('close question');
+        });
+    }, delay*1000);
 }
 
 function openQuestionModal(question) {
@@ -63,16 +73,31 @@ function startTimer(seconds) {
     var secondsLeft = seconds;
     var $timer = $('.game-flash-text');
 
-    gameFlash(secondsLeft);
+    $currentQuestionEl.addClass('disabled');
+
+    function updateTimer() {
+        gameFlash(secondsLeft, 'show-timer');
+    }
+
+    function timesUp() {
+        var $el = $('<h1>').text("Time's Up!");
+
+        $('.timer-content').addClass('times-up').append($el);
+    }
+
+    updateTimer();
 
     var timer = setInterval(function () {
         secondsLeft--;
 
-        gameFlash(secondsLeft);
+        updateTimer();
 
-        if (secondsLeft == -1) {
+        if (secondsLeft == 0) {
             clearInterval(timer);
-            gameFlash("Time's Up!", hide=false);
+
+            setTimeout(function () {
+                timesUp();
+            }, 1000);
         }
     }, 1000);
 }
@@ -82,6 +107,7 @@ function getQuestionFromEl($el) {
     var question_text = $el.children('.question-text').text();
     var answer = atob($el.children('.answer').text());
     var category = $el.siblings('.category-title').text();
+
     question = {
         value: value,
         question: question_text,
@@ -92,26 +118,58 @@ function getQuestionFromEl($el) {
     return question
 }
 
-function gameFlash(text, hide) {
+function gameFlash(text, className, length) {
+    if (length == undefined) length = 1;
+
     var $gameFlashText = $('.game-flash-text');
 
-    $gameFlashText.parent().toggleClass('show show-timer');
+    $gameFlashText.addClass(className);
 
+    $gameFlashText.parent().toggleClass('show '+className);
 
     $gameFlashText.text(text).show();
 
     $gameFlashText.animate({
         fontSize: '4em',
         opacity: 1
-    }, 500, function () {
-        if (hide != undefined) {
-            $gameFlashText.animate({
-                fontSize: '3em',
-                opacity: 0
-            }, 500, function () {
-                $gameFlashText.parent().toggleClass('show show-timer');
-            });
-        }
+    }, length*1000/2, function () {
+        $gameFlashText.animate({
+            fontSize: '3em',
+            opacity: 0
+        }, length*1000/2, function () {
+            $gameFlashText.parent().toggleClass('show '+className);
+        });
+    });
+}
+
+function handleAnswer(question, correct) {
+    var no_answer = correct == 'no_answer';
+
+    var result = 'Error';
+    var className;
+
+    if (!no_answer) {
+        var value = parseInt(question.value);
+
+        if (!correct) value = 0 - value;
+        if (player_who_buzzed == 1) playerOneScore += value;
+        else if (player_who_buzzed == 2) playerTwoScore += value;
+    }
+
+    if (no_answer) {
+        result = 'No answer';
+        className = ('no-answer');
+    } else if (correct) {
+        result = 'Correct!';
+        className = ('correct');
+    } else {
+        result = 'Incorrect';
+        className = ('incorrect');
+    }
+
+    gameFlash(result, className, 3);
+    closeQuestionModal(2.5, function () {
+        updateScores();
     });
 }
 
@@ -119,6 +177,8 @@ updateScores();
 
 $('.game .board-question:not(.disabled)').click(function () {
     var question = getQuestionFromEl($(this));
+
+    $currentQuestionEl = $(this);
 
     socket.emit('new question', question);
 
@@ -145,11 +205,11 @@ $(document).keydown(function (e) {
 
 // After buzzing
 socket.on('correct', function (question) {
-    handle_answer(question, true);
+    handleAnswer(question, true);
 });
 socket.on('incorrect', function (question) {
-    handle_answer(question, false);
+    handleAnswer(question, false);
 });
 socket.on('no answer', function (question) {
-    handle_answer(question, 'no_answer');
+    handleAnswer(question, 'no_answer');
 });

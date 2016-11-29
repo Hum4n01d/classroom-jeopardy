@@ -11,31 +11,6 @@ modal-bg = rgba(val, val, val, 0.5)
     top 0
     left 0
 
-.celebration-wrap
-    display none
-    align-items center
-    justify-content center
-    position absolute
-    top 0
-    left 0
-    width 100vw
-    height 100vh
-    z-index 1
-
-    .celebration
-        z-index 2
-        display none
-        font-size 5em
-
-        &.correct
-            color #51ff51
-
-        &.incorrect
-            color #ec0e0e
-            
-        &.no-answer
-            color #fff
-
 .question
     display none
     background-color #eee
@@ -65,12 +40,22 @@ modal-bg = rgba(val, val, val, 0.5)
         .timer-content
             display none
 
+            .timer-padding
+                padding 60px
+
+            &.times-up
+                h1
+                    padding 20px
+                    text-align center
+                    font-size 3em
+
+                .timer-padding
+                    display none
+
         .player-num::after
             text-align center
             content ':'
 
-        .timer-padding
-            padding 60px
 
 .question-blanket
     background-color rgba(100, 100, 100, 0.75)
