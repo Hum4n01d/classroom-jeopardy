@@ -51,7 +51,9 @@ function openQuestionModal(question) {
     $('.question .question-category').text(question.category);
     $('.timer-instructions').hide();
 
-    $('.question-modal-text').text('Waiting for teacher...');
+    $('.question-modal-text').text(question.question);
+    $('.question .status').text('Waiting for teacher...');
+
 }
 
 function answer(player_num) {
@@ -191,8 +193,11 @@ $('.question-blanket, .close').click(function () {
 
 socket.on('start buzzing', function (question) {
     $('.question-modal-text').text(question.question);
-    $('.timer-instructions').fadeIn();
-    you_can_buzz = true;
+    $('.question .status').text('');
+
+    $('.timer-instructions').fadeIn(function () {
+        you_can_buzz = true;
+    });
 });
 
 // Buzzing detection
