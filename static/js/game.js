@@ -125,6 +125,7 @@ function gameFlash(text, className, length) {
 
     var $gameFlashText = $('.game-flash-text');
 
+    $gameFlashText.removeClass('correct incorrect no-answer');
     $gameFlashText.addClass(className);
 
     $gameFlashText.parent().toggleClass('show '+className);
