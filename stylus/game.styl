@@ -23,12 +23,6 @@
     font-size 1.5em
 
 .game-flash
-    position fixed
-    left 0
-    top 0
-    height 100vh
-    width 100vw
-
     display none
     justify-content center
     align-items center
@@ -36,8 +30,8 @@
     &.show
         display flex
 
-        &.show-timer
-            height 100vh
+    &.show-timer
+        position relative
 
     .game-flash-text
         font-size 3em

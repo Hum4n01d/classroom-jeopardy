@@ -144,10 +144,12 @@ function getQuestionFromEl($el) {
     return question
 }
 
-function gameFlash(text, className, length) {
+function gameFlash(text, $parentEl, className, length) {
     if (length == undefined) length = 1;
+    if ($parentEl == undefined) $parentEl = $('.main-body');
 
-    var $gameFlashText = $('.game-flash-text');
+    var $gameFlashText = $('<div>').addClass('game-flash').append($('<p>').addClass('game-flash-text'));
+    $('.main-body').append($gameFlashText);
 
     $gameFlashText.removeClass('correct incorrect no-answer');
     $gameFlashText.addClass(className);
@@ -165,6 +167,8 @@ function gameFlash(text, className, length) {
             opacity: 0
         }, length*1000/2, function () {
             $gameFlashText.parent().toggleClass('show '+className);
+
+            $(this).remove();
         });
     });
 }
