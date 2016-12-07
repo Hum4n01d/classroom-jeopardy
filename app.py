@@ -7,8 +7,9 @@ from flask_login import LoginManager, current_user
 from flask_socketio import SocketIO, emit
 
 import models
+import config
+
 from accounts import accounts
-from files import the_files
 from game import game
 from users import users
 
@@ -129,8 +130,4 @@ if __name__ == '__main__':
     except models.IntegrityError:
         pass
 
-    PORT = int(environ.get('PORT', 3000))
-    HOST = '0.0.0.0'
-    DEBUG = environ.get('DEBUG', False)
-
-    socketio.run(app, port=PORT, host=HOST, debug=DEBUG, extra_files=the_files)
+    socketio.run(app, port=config.PORT, host=config.HOST, debug=config.DEBUG, extra_files=config.the_files)

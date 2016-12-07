@@ -7,12 +7,12 @@ from flask import url_for
 from flask_login import login_required
 
 import models
+import config
 
 game = Blueprint('game', __name__, url_prefix='/game')
 
 
 @game.route('/<board_id>')
-@login_required
 def play(board_id):
     try:
         board = models.Board.get(models.Board.id == board_id)
@@ -29,6 +29,8 @@ def play(board_id):
 
     return render_template('board.pug', board=board)
 
+if config.DEBUG:
+    login_required(play)
 
 @game.route('/<board_id>/json')
 @login_required

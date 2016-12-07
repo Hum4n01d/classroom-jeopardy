@@ -1,4 +1,8 @@
-from os import walk, path
+from os import walk, path, environ
+
+PORT = int(environ.get('PORT', 3000))
+HOST = '0.0.0.0'
+DEBUG = eval(environ.get('DEBUG', False))
 
 extra_dirs = ['templates/']
 the_files = extra_dirs[:]

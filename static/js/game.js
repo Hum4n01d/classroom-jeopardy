@@ -1,13 +1,37 @@
-var default_time = 5;
-var player_who_buzzed;
-var someone_buzzed = false;
-var you_can_buzz = false;
+var defaultTime = 5;
+var playerWhoBuzzed;
+var someoneBuzzed = false;
+var youCanBuzz = false;
+
+// Who starts the game (random)
+var whosTurn = Math.floor(Math.random()*2) + 1;
 
 var $currentQuestionEl;
 var $timerClone = $('.timer').clone();
 
 var playerOneScore = 0;
 var playerTwoScore = 0;
+
+function updateWhosTurn() {
+    $('.whos-turn-text').text(whosTurn);
+
+    $('.whos-turn').animate({
+        fontSize: '1.75em'
+    }, 500, function () {
+        $(this).animate({
+            fontSize: '1.5em'
+        }, 500);
+    });
+}
+
+function toggleWhosTurn() {
+    if (whosTurn == 1) {
+        whosTurn = 2
+    } else if (whosTurn == 2) {
+        whosTurn = 1
+    }
+    updateWhosTurn();
+}
 
 function updateScores() {
     $('.score-one').text(playerOneScore);
@@ -29,7 +53,7 @@ function updateScores() {
 function closeQuestionModal(delay, callback) {
     if (delay == undefined) delay = 0;
 
-    someone_buzzed = false;
+    someoneBuzzed = false;
 
     $('.question').fadeOut();
 
@@ -56,17 +80,17 @@ function openQuestionModal(question) {
 
 }
 
-function answer(player_num) {
-    player_who_buzzed = player_num;
-    someone_buzzed = true;
-    you_can_buzz = false;
+function answer(playerNum) {
+    playerWhoBuzzed = playerNum;
+    someoneBuzzed = true;
+    youCanBuzz = false;
 
-    $('.player-num').text(player_num);
+    $('.player-num').text(playerNum);
     $('.close').fadeOut();
 
     $('.timer-instructions').fadeOut(function () {
         $('.timer-content').slideDown(function () {
-            startTimer(default_time);
+            startTimer(defaultTime);
         });
     });
 }
@@ -106,13 +130,13 @@ function startTimer(seconds) {
 
 function getQuestionFromEl($el) {
     var value = $el.children('.value').text();
-    var question_text = $el.children('.question-text').text();
+    var questionText = $el.children('.question-text').text();
     var answer = atob($el.children('.answer').text());
     var category = $el.siblings('.category-title').text();
 
     question = {
         value: value,
-        question: question_text,
+        question: questionText,
         answer: answer,
         category: category
     };
@@ -146,20 +170,20 @@ function gameFlash(text, className, length) {
 }
 
 function handleAnswer(question, correct) {
-    var no_answer = correct == 'no_answer';
+    var noAnswer = correct == 'no_answer';
 
     var result = 'Error';
     var className;
 
-    if (!no_answer) {
+    if (!noAnswer) {
         var value = parseInt(question.value);
 
         if (!correct) value = 0 - value;
-        if (player_who_buzzed == 1) playerOneScore += value;
-        else if (player_who_buzzed == 2) playerTwoScore += value;
+        if (playerWhoBuzzed == 1) playerOneScore += value;
+        else if (playerWhoBuzzed == 2) playerTwoScore += value;
     }
 
-    if (no_answer) {
+    if (noAnswer) {
         result = 'No answer';
         className = ('no-answer');
     } else if (correct) {
@@ -189,7 +213,13 @@ $('.game .board-question:not(.disabled)').click(function () {
 });
 
 $('.question-blanket, .close').click(function () {
-    if (!someone_buzzed) closeQuestionModal();
+    if (!someoneBuzzed) closeQuestionModal();
+});
+
+$('.start-game').click(function () {
+    $('.whos-turn').css('visibility', 'visible')
+    updateWhosTurn();
+    $(this).parent().fadeOut();
 });
 
 socket.on('start buzzing', function (question) {
@@ -197,13 +227,13 @@ socket.on('start buzzing', function (question) {
     $('.question .status').text('');
 
     $('.timer-instructions').fadeIn(function () {
-        you_can_buzz = true;
+        youCanBuzz = true;
     });
 });
 
 // Buzzing detection
 $(document).keydown(function (e) {
-    if (you_can_buzz) {
+    if (youCanBuzz) {
         if (e.which == 90) answer(1);
         if (e.which == 77) answer(2);
     }

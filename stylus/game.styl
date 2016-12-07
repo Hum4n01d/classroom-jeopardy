@@ -13,6 +13,15 @@
     a
         margin-right 5px
 
+.whos-turn
+    visibility hidden
+    position absolute
+    display flex
+    justify-content center
+    width 100%
+    align-items center
+    font-size 1.5em
+
 .game-flash
     position fixed
     left 0
@@ -44,52 +53,71 @@
         &.no-answer
             color #fff
 
-.board
-    display flex
-    border 1px solid #999
+.board-wrap
+    position relative
 
-    .category
-        margin 0
-        width 20%
-        padding 0
-        border-right 1px solid #999
+    .board-blanket
+        position absolute
+        z-index 10
+        display flex
+        justify-content center
+        align-items center
+        top 0
+        left 0
+        width 100%
+        height 100%
+        background-color rgba(100, 100, 100, 0.85)
+        -webkit-backdrop-filter blur(3px)
 
-        .answer
-            display none
+        button
+            height 40px
 
-        &:last-child
-            border none
+    .board
+        display flex
+        border 1px solid #999
 
-        .category-title
-            background-color #eee
-            width 100%
+        .category
             margin 0
+            width 20%
+            padding 0
+            border-right 1px solid #999
 
-        .board-question
-            cursor pointer
-
-            &.disabled
-                background-color #eee
-                cursor auto
-
-            .question-text
+            .answer
                 display none
-
-        .board-question,
-        .category-title
-            display flex
-            justify-content center
-            align-items center
-            border-bottom 1px solid #999
-            margin 0
-            padding 40px 10px
-            list-style none
-
-            > p
-                margin 0
 
             &:last-child
                 border none
+
+            .category-title
+                background-color #eee
+                width 100%
+                margin 0
+
+            .board-question
+                cursor pointer
+
+                &.disabled
+                    background-color #eee
+                    cursor auto
+
+                .question-text
+                    display none
+
+            .board-question,
+            .category-title
+                display flex
+                justify-content center
+                align-items center
+                border-bottom 1px solid #999
+                margin 0
+                padding 40px 10px
+                list-style none
+
+                > p
+                    margin 0
+
+                &:last-child
+                    border none
 
 .create-board
     button[type="submit"]

@@ -17,8 +17,15 @@ mixin render_form(form, action='Submit')
 
         button(type='submit')= action
 
-mixin render_board(board, create=false)
+mixin render_board(board, create=False)
     .board-wrap
+        .board-blanket
+            button.start-game Start Game!
+
+        if not create
+            .whos-turn
+                p Player #[span.whos-turn-text], it's your turn
+
         if create
             input.title(placeholder=board.title, name='board_title')
         else

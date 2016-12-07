@@ -2,7 +2,7 @@ from datetime import datetime
 from peewee import *
 from flask_login import UserMixin
 
-import json
+from json import load
 
 from db_init import db
 
@@ -60,6 +60,8 @@ def initialize():
     db_proxy.create_tables([User, Question, Category, Board], safe=True)
     db_proxy.close()
 
+def create_general_knowledge_game():
+    return create_my_game(load(open('Example JSON Data/General Knowledge.json')), User.get(User.username == 'Hum4n01d'))
 
 def create_my_game(json_data, user):
     db_proxy.connect()
