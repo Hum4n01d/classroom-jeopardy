@@ -1,7 +1,7 @@
 $(document).ready(function () {
     var data = localStorage.getItem('json_data');
 
-    if (data != '') {
+    if (data) {
         $('.flashes').append($('<li>').text('Using saved game data'))
         loadJSON(JSON.parse(data));
     }

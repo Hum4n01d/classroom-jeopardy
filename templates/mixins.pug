@@ -45,7 +45,7 @@ mixin render_board(board, create=false)
             each category in board.category_set
                 ul.category
                     if create
-                        input.category-title(placeholder=category.title, name='category_title')
+                        input.category-title(placeholder="Category Title", name='category_title')
                     else
                         li.category-title= category.title
 

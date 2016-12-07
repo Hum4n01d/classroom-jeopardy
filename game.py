@@ -12,7 +12,7 @@ game = Blueprint('game', __name__, url_prefix='/game')
 
 
 @game.route('/<board_id>')
-# @login_required
+@login_required
 def play(board_id):
     try:
         board = models.Board.get(models.Board.id == board_id)
@@ -44,7 +44,7 @@ def get_json(board_id):
 
 
 @game.route('/<board_id>/teacher')
-# @login_required
+@login_required
 def teacher(board_id):
     return render_template('teacher.pug')
 
