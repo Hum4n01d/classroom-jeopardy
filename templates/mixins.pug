@@ -19,9 +19,6 @@ mixin render_form(form, action='Submit')
 
 mixin render_board(board, create=False)
     .board-wrap
-        .board-blanket
-            button.start-game Start Game!
-
         if not create
             .whos-turn
                 p Player #[span.whos-turn-text], it's your turn

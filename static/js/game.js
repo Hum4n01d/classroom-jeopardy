@@ -220,12 +220,6 @@ $('.question-blanket, .close').click(function () {
     if (!someoneBuzzed) closeQuestionModal();
 });
 
-$('.start-game').click(function () {
-    $('.whos-turn').css('visibility', 'visible')
-    updateWhosTurn();
-    $(this).parent().fadeOut();
-});
-
 socket.on('start buzzing', function (question) {
     $('.question-modal-text').text(question.question);
     $('.question .status').text('');
