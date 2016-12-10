@@ -24,15 +24,6 @@ function updateWhosTurn() {
     });
 }
 
-function toggleWhosTurn() {
-    if (whosTurn == 1) {
-        whosTurn = 2
-    } else if (whosTurn == 2) {
-        whosTurn = 1
-    }
-    updateWhosTurn();
-}
-
 function updateScores() {
     $('.score-one').text(playerOneScore);
     $('.score-two').text(playerTwoScore);
@@ -217,7 +208,9 @@ function handleAnswer(question, correct) {
 updateScores();
 updateWhosTurn();
 
-$('.game .board-question:not(.disabled)').click(function () {
+$('.game .board-question').click(function () {
+    if ($(this).hasClass('disabled')) return false;
+
     var question = getQuestionFromEl($(this));
 
     $currentQuestionEl = $(this);
