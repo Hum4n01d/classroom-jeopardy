@@ -102,7 +102,7 @@ function startTimer(seconds) {
     $currentQuestionEl.addClass('disabled');
 
     function updateTimer() {
-        gameFlash(secondsLeft, 'show-timer');
+        gameFlash(secondsLeft, $('.timer-game-flash'), 'show-timer');
     }
 
     function timesUp() {
@@ -146,10 +146,14 @@ function getQuestionFromEl($el) {
 
 function gameFlash(text, $parentEl, className, length) {
     if (length == undefined) length = 1;
-    if ($parentEl == undefined) $parentEl = $('.main-body');
+    var $mainBody = $('.main-body');
+
+    if ($parentEl == undefined) $parentEl = $mainBody;
+
+    console.log($parentEl);
 
     var $gameFlashText = $('<div>').addClass('game-flash').append($('<p>').addClass('game-flash-text'));
-    $('.main-body').append($gameFlashText);
+    $parentEl.append($gameFlashText);
 
     $gameFlashText.removeClass('correct incorrect no-answer');
     $gameFlashText.addClass(className);
@@ -193,18 +197,21 @@ function handleAnswer(question, correct) {
     } else if (correct) {
         result = 'Correct!';
         className = ('correct');
+        whosTurn = playerWhoBuzzed;
     } else {
         result = 'Incorrect';
         className = ('incorrect');
     }
 
-    gameFlash(result, className, 3);
+    gameFlash(result, $('.main-body'), className, 3);
     closeQuestionModal(2.5, function () {
+        updateWhosTurn();
         updateScores();
     });
 }
 
 updateScores();
+updateWhosTurn();
 
 $('.game .board-question:not(.disabled)').click(function () {
     var question = getQuestionFromEl($(this));

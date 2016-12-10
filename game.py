@@ -29,9 +29,6 @@ def play(board_id):
 
     return render_template('board.pug', board=board)
 
-if config.DEBUG:
-    login_required(play)
-
 @game.route('/<board_id>/json')
 @login_required
 def get_json(board_id):
@@ -46,7 +43,6 @@ def get_json(board_id):
 
 
 @game.route('/<board_id>/teacher')
-@login_required
 def teacher(board_id):
     return render_template('teacher.pug')
 
@@ -264,3 +260,8 @@ def all():
         abort(404)
 
     return render_template('games_list.pug', boards=boards)
+
+
+if config.DEBUG:
+    login_required(play)
+    login_required(teacher)
