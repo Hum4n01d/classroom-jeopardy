@@ -15,6 +15,8 @@
 
 .whos-turn
     position absolute
+    top 0
+    left 0
     display flex
     justify-content center
     width 100%
@@ -39,19 +41,19 @@
     &.show-timer
         position relative
 
-    .game-flash-text
-        font-size 3em
-        opacity 0
-        z-index 10000
+.game-flash-text
+    font-size 3em
+    opacity 0
+    z-index 10000
 
-        &.correct
-            color #51ff51
+    &.correct
+        color #51ff51
 
-        &.incorrect
-            color #ec0e0e
+    &.incorrect
+        color #ec0e0e
 
-        &.no-answer
-            color #fff
+    &.no-answer
+        color #fff
 
 .board
     display flex

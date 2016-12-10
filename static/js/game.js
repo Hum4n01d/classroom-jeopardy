@@ -150,10 +150,12 @@ function gameFlash(text, $parentEl, className, length) {
 
     if ($parentEl == undefined) $parentEl = $mainBody;
 
-    console.log($parentEl);
+    var $newEl = $('<div>').addClass('game-flash');
+    $newEl.append($('<p>').addClass('game-flash-text'));
 
-    var $gameFlashText = $('<div>').addClass('game-flash').append($('<p>').addClass('game-flash-text'));
-    $parentEl.append($gameFlashText);
+    $parentEl.append($newEl);
+
+    var $gameFlashText = $('.game-flash-text');
 
     $gameFlashText.removeClass('correct incorrect no-answer');
     $gameFlashText.addClass(className);
@@ -172,7 +174,7 @@ function gameFlash(text, $parentEl, className, length) {
         }, length*1000/2, function () {
             $gameFlashText.parent().toggleClass('show '+className);
 
-            $(this).remove();
+            $(this).parent().remove();
         });
     });
 }
@@ -193,14 +195,14 @@ function handleAnswer(question, correct) {
 
     if (noAnswer) {
         result = 'No answer';
-        className = ('no-answer');
+        className = 'no-answer';
     } else if (correct) {
         result = 'Correct!';
-        className = ('correct');
+        className = 'correct';
         whosTurn = playerWhoBuzzed;
     } else {
         result = 'Incorrect';
-        className = ('incorrect');
+        className = 'incorrect';
     }
 
     gameFlash(result, $('.main-body'), className, 3);
