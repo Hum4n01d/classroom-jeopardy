@@ -109,6 +109,8 @@ function startTimer(seconds) {
         var $el = $('<h1>').text("Time's Up!");
 
         $('.timer-content').addClass('times-up').append($el);
+
+        $('.times-up h1').animate({opacity: 1, fontSize: '3em'}, 500)
     }
 
     updateTimer();
