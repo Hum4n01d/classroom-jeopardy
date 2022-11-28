@@ -108,26 +108,4 @@ def presidents_game():
 
 if __name__ == '__main__':
     models.initialize()
-
-    try:
-        models.User.create(
-            username='Hum4n01d',
-            password='pbkdf2:sha1:1000$yfvYZTxy$28a15bb8dbdb3a55f51b82b16edcb786355616ae',
-            email='hum4n01d@icloud.com',
-            is_admin=True
-        )
-
-    except models.IntegrityError:
-        pass
-
-    try:
-        models.User.create(
-            username='testq',
-            password='pbkdf2:sha1:1000$ooCswSpt$a607935f180864677f761683f7bce4b1c4ca2c31',
-            email='test@example.com'
-        )
-
-    except models.IntegrityError:
-        pass
-
     socketio.run(app, port=config.PORT, host=config.HOST, debug=config.DEBUG, extra_files=config.the_files)
